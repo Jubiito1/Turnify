@@ -14,7 +14,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
 | 2. Backend y DB     | T05–T15 | 11/11       |
-| 3. Frontend         | T16–T23 | 0/8         |
+| 3. Frontend         | T16–T23 | 1/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
 | 6. Auditoría        | T28     | 0/1         |
@@ -128,11 +128,11 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T14
   - RN: RN-022
   - Criterios: tests de integración con datos persistidos.
-  - Commit: —
+  - Commit: `fc9826a`
 
 ## Fase 3 — Frontend
 
-- [ ] **T16 — Sistema de diseño, layouts y autenticación**
+- [x] **T16 — Sistema de diseño, layouts y autenticación**
   - Descripción: componentes base (botón, inputs, select, tarjeta, badge, diálogo, skeleton, estado vacío, toasts), cliente HTTP, contexto de sesión, rutas protegidas, login, registro y onboarding de negocio.
   - Dependencias: T04, T07
   - RN: RN-024, RN-031

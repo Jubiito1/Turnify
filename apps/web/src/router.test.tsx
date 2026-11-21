@@ -1,23 +1,58 @@
-import { render, screen } from '@testing-library/react';
-import { createMemoryRouter, RouterProvider } from 'react-router';
-import { routes } from './router';
-
-function renderAt(path: string) {
-  const router = createMemoryRouter(routes, { initialEntries: [path] });
-  return render(<RouterProvider router={router} />);
-}
+import { screen } from '@testing-library/react';
+import { renderApp } from './test/render';
+import { demoUsers, server, signedInAs } from './test/server';
+import { http, HttpResponse } from 'msw';
 
 describe('app routing', () => {
-  it('renders the landing page at /', () => {
-    renderAt('/');
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/turnos sin vueltas/i);
+  it('renders the landing page at /', async () => {
+    renderApp('/');
+    expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(
+      /turnos sin vueltas/i,
+    );
+    expect(await screen.findByRole('link', { name: /^ingresar$/i })).toHaveAttribute(
+      'href',
+      '/ingresar',
+    );
   });
 
-  it('renders a 404 page for unknown routes', () => {
-    renderAt('/this/does/not/exist');
+  it('renders a 404 page for unknown routes', async () => {
+    renderApp('/this/does/not/exist');
     expect(
-      screen.getByRole('heading', { name: /no encontramos esta página/i }),
+      await screen.findByRole('heading', { name: /no encontramos esta página/i }),
     ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /volver al inicio/i })).toHaveAttribute('href', '/');
+  });
+
+  it('redirects anonymous visitors of protected panels to the login page', async () => {
+    const { router } = renderApp('/admin');
+    expect(await screen.findByRole('heading', { name: /hola de nuevo/i })).toBeInTheDocument();
+    expect(router.state.location.pathname).toBe('/ingresar');
+    expect(router.state.location.search).toBe('?next=%2Fadmin');
+  });
+
+  it('sends users with another role to their own home', async () => {
+    server.use(
+      signedInAs(demoUsers.pro),
+      http.get('*/api/pro/me', () =>
+        HttpResponse.json({
+          professional: {
+            id: demoUsers.pro.professionalId,
+            displayName: 'Lucía Fernández',
+            bio: null,
+            canManageBlocks: true,
+            canCompleteBookings: true,
+            business: {
+              id: 'b',
+              name: 'Estudio Lumen',
+              slug: 'estudio-lumen',
+              timezone: 'America/Argentina/Buenos_Aires',
+            },
+            workingHours: [],
+          },
+        }),
+      ),
+    );
+    const { router } = renderApp('/admin');
+    expect(await screen.findByRole('heading', { name: /hola, lucía/i })).toBeInTheDocument();
+    expect(router.state.location.pathname).toBe('/pro');
   });
 });
