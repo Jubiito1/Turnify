@@ -13,7 +13,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | Fase                | Tareas  | Completadas |
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
-| 2. Backend y DB     | T05–T15 | 5/11        |
+| 2. Backend y DB     | T05–T15 | 6/11        |
 | 3. Frontend         | T16–T23 | 0/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
@@ -86,9 +86,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T08
   - RN: RN-003, RN-023, RN-030, RN-033
   - Criterios: tests de integración de ABM, horarios inválidos y aislamiento.
-  - Commit: —
+  - Commit: `a2f2c62`
 
-- [ ] **T10 — Motor de disponibilidad**
+- [x] **T10 — Motor de disponibilidad**
   - Descripción: función pura que calcula horarios libres (franjas, reservas, bloqueos, duración, intervalo, horizonte, zona horaria) y endpoint público.
   - Dependencias: T09
   - RN: RN-001, RN-004, RN-005, RN-007, RN-008, RN-012, RN-019, RN-027, RN-034

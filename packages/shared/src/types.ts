@@ -170,3 +170,9 @@ export interface NotificationDTO {
   readAt: string | null;
   createdAt: string;
 }
+
+export interface AvailabilitySummaryResponse {
+  timezone: string;
+  serviceId: string;
+  days: { date: string; slotCount: number }[];
+}

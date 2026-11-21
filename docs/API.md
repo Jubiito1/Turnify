@@ -90,3 +90,31 @@ Un servicio de otro negocio responde `404` (RN-011, RN-021).
 | `PUT`   | `/api/admin/professionals/:id/working-hours` | Reemplaza el horario semanal. Body: `{ hours: [{ weekday (0=domingo…6), startMinute, endMinute }] }` en minutos locales del negocio; franjas superpuestas → `400` (RN-030)                 |
 
 `ProfessionalDTO`: `{ id, displayName, bio, isActive, canManageBlocks, canCompleteBookings, account: { email } | null, serviceIds, workingHours }`.
+
+## Disponibilidad
+
+### `GET /api/businesses/:slug/availability?serviceId=&date=AAAA-MM-DD&professionalId=`
+
+Público. Horarios libres reales para una fecha local del negocio (RN-008). Considera franjas laborales (en la zona horaria del negocio), duración del servicio, intervalo de turnos, reservas activas, bloqueos, horizonte de reserva y descarta horarios pasados.
+
+```json
+{
+  "date": "2026-12-07",
+  "timezone": "America/Argentina/Buenos_Aires",
+  "serviceId": "…",
+  "durationMinutes": 45,
+  "slots": [
+    {
+      "startsAt": "2026-12-07T12:00:00.000Z",
+      "endsAt": "2026-12-07T12:45:00.000Z",
+      "professionalIds": ["…", "…"]
+    }
+  ]
+}
+```
+
+Sin `professionalId`, cada horario lista los profesionales elegibles libres. Errores: `404` servicio inexistente o de otro negocio, `422 SERVICE_INACTIVE`, `422 PROFESSIONAL_NOT_ELIGIBLE`.
+
+### `GET /api/businesses/:slug/availability/summary?serviceId=&from=AAAA-MM-DD&days=14&professionalId=`
+
+Cantidad de horarios libres por día (1 a 31 días) para el selector de fechas → `{ timezone, serviceId, days: [{ date, slotCount }] }`.

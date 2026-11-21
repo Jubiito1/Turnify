@@ -108,3 +108,11 @@ export const dateRangeQuerySchema = z.object({
   professionalId: idSchema.optional(),
 });
 export type DateRangeQuery = z.infer<typeof dateRangeQuerySchema>;
+
+export const availabilitySummaryQuerySchema = z.object({
+  serviceId: idSchema,
+  from: dateOnlySchema,
+  days: z.coerce.number().int().min(1).max(31).default(14),
+  professionalId: idSchema.optional(),
+});
+export type AvailabilitySummaryQuery = z.infer<typeof availabilitySummaryQuerySchema>;
