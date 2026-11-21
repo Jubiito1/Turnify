@@ -160,3 +160,15 @@ Solo reservas propias; las ajenas responden `404` (RN-009, RN-021).
 | `SLOT_TAKEN`                | 409  | Superposición con otra reserva activa del profesional (RN-006, RN-020)     |
 | `CLIENT_OVERLAP`            | 409  | El cliente ya tiene una reserva activa superpuesta (RN-028)                |
 | `INVALID_CLIENT`            | 422  | El email indicado por el admin pertenece a una cuenta que no es de cliente |
+
+### Ciclo de vida
+
+| Método  | Ruta                                 | Acceso                                          | Descripción                                                                                                          |
+| ------- | ------------------------------------ | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `POST`  | `/api/bookings/:id/cancel`           | Cliente (propia)                                | Body: `{ reason? }`. Requiere `cancellationMinHours` de anticipación (RN-013)                                        |
+| `POST`  | `/api/bookings/:id/reschedule`       | Cliente (propia)                                | Body: `{ startsAt }`. Revalida disponibilidad (RN-016); vuelve a `PENDING` si el negocio no confirma automáticamente |
+| `PATCH` | `/api/admin/bookings/:id/status`     | Admin                                           | Body: `{ status, reason? }`. Confirmar, cancelar (sin restricción de anticipación), completar o marcar ausente       |
+| `POST`  | `/api/admin/bookings/:id/reschedule` | Admin                                           | Body: `{ startsAt, professionalId? }`. Permite cambiar a otro profesional elegible                                   |
+| `PATCH` | `/api/pro/bookings/:id/status`       | Profesional (propia, con `canCompleteBookings`) | Solo `COMPLETED` o `NO_SHOW`                                                                                         |
+
+Transiciones válidas: `PENDING → CONFIRMED | CANCELLED`, `CONFIRMED → COMPLETED | CANCELLED | NO_SHOW` (RN-015). Errores: `422 INVALID_TRANSITION`, `422 BOOKING_NOT_STARTED` (RN-026), `422 CANCELLATION_WINDOW_PASSED`, `422 BOOKING_NOT_ACTIVE`, `409 BOOKING_CHANGED` (otra persona modificó la reserva al mismo tiempo), `403 PERMISSION_DENIED`, más los errores de disponibilidad al reprogramar.

@@ -2,7 +2,11 @@ import { Router, type RequestHandler } from 'express';
 import { authenticate, requireRole } from './middleware/auth';
 import { createAuthRouter } from './modules/auth/auth.routes';
 import { adminBlocksRouter, proBlocksRouter } from './modules/blocks/blocks.routes';
-import { adminBookingsRouter, clientBookingsRouter } from './modules/bookings/bookings.routes';
+import {
+  adminBookingsRouter,
+  clientBookingsRouter,
+  proBookingsRouter,
+} from './modules/bookings/bookings.routes';
 import { adminBusinessRouter } from './modules/business/business.routes';
 import { catalogRouter } from './modules/catalog/catalog.routes';
 import { healthRouter } from './modules/health/health.routes';
@@ -39,6 +43,7 @@ export function createApiRouter({ authRateLimiter }: ApiRouterDeps) {
   const pro = Router();
   pro.use(authenticate, requireRole('PROFESSIONAL'));
   pro.use('/blocks', proBlocksRouter);
+  pro.use('/bookings', proBookingsRouter);
   api.use('/pro', pro);
 
   return api;

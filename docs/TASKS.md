@@ -13,7 +13,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | Fase                | Tareas  | Completadas |
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
-| 2. Backend y DB     | T05–T15 | 8/11        |
+| 2. Backend y DB     | T05–T15 | 9/11        |
 | 3. Frontend         | T16–T23 | 0/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
@@ -107,9 +107,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T11
   - RN: RN-001–RN-008, RN-017, RN-018, RN-020, RN-025, RN-027, RN-028
   - Criterios: tests de integración y test de concurrencia (N solicitudes simultáneas → 1 éxito).
-  - Commit: —
+  - Commit: `c279bd5`
 
-- [ ] **T13 — Ciclo de vida de reservas**
+- [x] **T13 — Ciclo de vida de reservas**
   - Descripción: transiciones de estado, cancelación con anticipación mínima, reprogramación con revalidación, permisos por rol.
   - Dependencias: T12
   - RN: RN-009, RN-010, RN-012–RN-016, RN-021, RN-026, RN-033
