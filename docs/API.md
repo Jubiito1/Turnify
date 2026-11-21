@@ -131,3 +131,32 @@ Cantidad de horarios libres por día (1 a 31 días) para el selector de fechas �
 | `DELETE` | `/api/pro/blocks/:id`                         | Profesional con `canManageBlocks` | Solo bloqueos propios                                                   |
 
 Errores: `409 BLOCK_CONFLICTS_WITH_BOOKINGS` con `details.conflictingBookings` (RN-029), `422 BLOCK_IN_PAST`, `403 PERMISSION_DENIED` (RN-033), `404` para profesionales o bloqueos fuera del ámbito.
+
+## Reservas
+
+### Crear (cliente) — `POST /api/bookings`
+
+Rol `CLIENT`. Body: `{ serviceId, professionalId, startsAt, notes? }`. El servidor calcula `endsAt` con la duración del servicio (RN-007) y guarda una copia del precio (RN-018). Estado inicial `PENDING`, o `CONFIRMED` si el negocio tiene `autoConfirm`.
+
+### Crear (admin) — `POST /api/admin/bookings`
+
+Body: `{ serviceId, professionalId, startsAt, notes?, client: { name, email } }`. Si el email no existe se crea un cliente invitado (sin contraseña; puede reclamar la cuenta registrándose). Estado `CONFIRMED`.
+
+### Detalle (cliente) — `GET /api/bookings/:id`
+
+Solo reservas propias; las ajenas responden `404` (RN-009, RN-021).
+
+`BookingDTO`: `{ id, status, startsAt, endsAt, priceCents, notes, cancellationReason, cancelledAt, createdAt, service, professional, business, client }`.
+
+### Validaciones al crear
+
+| Código                      | HTTP | Regla                                                                      |
+| --------------------------- | ---- | -------------------------------------------------------------------------- |
+| `BOOKING_IN_PAST`           | 422  | RN-001                                                                     |
+| `SERVICE_INACTIVE`          | 422  | RN-002, RN-017                                                             |
+| `PROFESSIONAL_NOT_ELIGIBLE` | 422  | RN-003, RN-025                                                             |
+| `BEYOND_BOOKING_HORIZON`    | 422  | RN-027                                                                     |
+| `SLOT_UNAVAILABLE`          | 409  | Fuera de horario, desalineado o bloqueado (RN-004, RN-005, RN-034)         |
+| `SLOT_TAKEN`                | 409  | Superposición con otra reserva activa del profesional (RN-006, RN-020)     |
+| `CLIENT_OVERLAP`            | 409  | El cliente ya tiene una reserva activa superpuesta (RN-028)                |
+| `INVALID_CLIENT`            | 422  | El email indicado por el admin pertenece a una cuenta que no es de cliente |

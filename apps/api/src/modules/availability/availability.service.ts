@@ -1,4 +1,4 @@
-import type { Business, Service } from '@prisma/client';
+import type { Business, Prisma, Service } from '@prisma/client';
 import { ACTIVE_BOOKING_STATUSES } from '@turnify/shared';
 import type {
   AvailabilityQuery,
@@ -22,11 +22,14 @@ interface LoadSchedulesParams {
   includeBookings: boolean;
   /** Ignore this booking (rescheduling must not collide with itself, RN-016). */
   excludeBookingId?: string;
+  /** Transaction client, so reads happen under the agenda lock when validating writes. */
+  db?: Prisma.TransactionClient;
 }
 
 /** Loads eligible professionals (RN-003) with their hours and busy intervals in a time window. */
 export async function loadSchedules(params: LoadSchedulesParams): Promise<ProfessionalSchedule[]> {
-  const professionals = await prisma.professional.findMany({
+  const db = params.db ?? prisma;
+  const professionals = await db.professional.findMany({
     where: {
       businessId: params.businessId,
       isActive: true,
