@@ -6,9 +6,16 @@ import { pinoHttp } from 'pino-http';
 import { env, isTest } from './config/env';
 import { logger } from './lib/logger';
 import { errorHandler, notFoundHandler } from './middleware/error-handler';
+import { createAuthRateLimiter } from './middleware/rate-limit';
+import { createAuthRouter } from './modules/auth/auth.routes';
 import { healthRouter } from './modules/health/health.routes';
 
-export function createApp() {
+export interface AppOptions {
+  /** Overrides AUTH_RATE_LIMIT_MAX (used by tests). */
+  authRateLimitMax?: number;
+}
+
+export function createApp(options: AppOptions = {}) {
   const app = express();
 
   app.disable('x-powered-by');
@@ -41,7 +48,11 @@ export function createApp() {
   }
 
   const api = Router();
+  const authRateLimiter = createAuthRateLimiter(
+    options.authRateLimitMax ?? env.AUTH_RATE_LIMIT_MAX,
+  );
   api.use('/health', healthRouter);
+  api.use('/auth', createAuthRouter(authRateLimiter));
 
   app.use('/api', api);
   app.use(notFoundHandler);

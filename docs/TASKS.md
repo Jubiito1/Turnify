@@ -13,7 +13,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | Fase                | Tareas  | Completadas |
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
-| 2. Backend y DB     | T05–T15 | 1/11        |
+| 2. Backend y DB     | T05–T15 | 2/11        |
 | 3. Frontend         | T16–T23 | 0/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
@@ -58,9 +58,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T03
   - RN: RN-006, RN-012, RN-018, RN-019, RN-020, RN-028
   - Criterios: migración aplicada en PostgreSQL real; test que verifica que la base rechaza superposiciones.
-  - Commit: —
+  - Commit: `5dc48eb`
 
-- [ ] **T06 — Autenticación y autorización**
+- [x] **T06 — Autenticación y autorización**
   - Descripción: registro de cliente, login, logout, `me`, bcrypt, JWT en cookie `httpOnly`, rate limiting, middleware de roles, perfil y cambio de contraseña.
   - Dependencias: T05
   - RN: RN-024, RN-031, RN-032

@@ -27,3 +27,18 @@ Público. Indica que el servicio está en línea.
   "uptimeSeconds": 12
 }
 ```
+
+## Autenticación
+
+| Método  | Ruta                    | Acceso               | Descripción                                                                                   |
+| ------- | ----------------------- | -------------------- | --------------------------------------------------------------------------------------------- |
+| `POST`  | `/api/auth/register`    | Público (rate limit) | Registra un cliente y abre sesión. Body: `{ name, email, password, phone? }` → `201 { user }` |
+| `POST`  | `/api/auth/login`       | Público (rate limit) | Body: `{ email, password }` → `200 { user }` + cookie `turnify_session`                       |
+| `POST`  | `/api/auth/logout`      | Público              | Elimina la cookie de sesión → `204`                                                           |
+| `GET`   | `/api/auth/me`          | Autenticado          | Usuario actual → `{ user: SessionUser }`                                                      |
+| `PATCH` | `/api/auth/me`          | Autenticado          | Actualiza perfil. Body: `{ name, phone? }`                                                    |
+| `POST`  | `/api/auth/me/password` | Autenticado          | Body: `{ currentPassword, newPassword }` → `204`                                              |
+
+`SessionUser`: `{ id, name, email, phone, role: "CLIENT" | "PROFESSIONAL" | "ADMIN", businessId, professionalId }`.
+
+Errores: `409 EMAIL_TAKEN`, `401 INVALID_CREDENTIALS` (mismo mensaje para email inexistente y contraseña incorrecta), `400 INVALID_CURRENT_PASSWORD`, `429 TOO_MANY_REQUESTS` (más de `AUTH_RATE_LIMIT_MAX` intentos por IP en 15 minutos).
