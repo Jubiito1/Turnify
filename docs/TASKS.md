@@ -14,7 +14,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
 | 2. Backend y DB     | T05–T15 | 11/11       |
-| 3. Frontend         | T16–T23 | 2/8         |
+| 3. Frontend         | T16–T23 | 3/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
 | 6. Auditoría        | T28     | 0/1         |
@@ -144,9 +144,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T16, T12
   - RN: RN-001, RN-003, RN-008
   - Criterios: tests de componentes del selector de horarios.
-  - Commit: —
+  - Commit: `6413852`
 
-- [ ] **T18 — Área del cliente**
+- [x] **T18 — Área del cliente**
   - Descripción: mis reservas (próximas/pasadas), cancelar, reprogramar y perfil.
   - Dependencias: T17, T13
   - RN: RN-009, RN-013, RN-016

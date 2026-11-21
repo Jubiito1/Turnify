@@ -1,4 +1,6 @@
 import { createBrowserRouter, type RouteObject } from 'react-router';
+import { MyBookingsPage } from './features/account/MyBookingsPage';
+import { ProfilePage } from './features/account/ProfilePage';
 import { AdminHomePage } from './features/admin/AdminHomePage';
 import { AdminLayout } from './features/admin/AdminLayout';
 import { LoginPage } from './features/auth/LoginPage';
@@ -22,6 +24,22 @@ export const routes: RouteObject[] = [
       { path: 'explorar', element: <ExplorePage /> },
       { path: 'negocios/:slug', element: <BusinessPage /> },
       { path: 'negocios/:slug/reservar', element: <BookingPage /> },
+      {
+        path: 'mis-reservas',
+        element: (
+          <RequireRole roles={['CLIENT']}>
+            <MyBookingsPage />
+          </RequireRole>
+        ),
+      },
+      {
+        path: 'mi-perfil',
+        element: (
+          <RequireRole roles={['CLIENT', 'ADMIN', 'PROFESSIONAL']}>
+            <ProfilePage />
+          </RequireRole>
+        ),
+      },
     ],
   },
   { path: '/ingresar', element: <LoginPage /> },

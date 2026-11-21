@@ -111,5 +111,5 @@ export function useAuth(): AuthContextValue {
 export function homeFor(user: SessionUser): string {
   if (user.role === 'ADMIN') return '/admin';
   if (user.role === 'PROFESSIONAL') return '/pro';
-  return '/';
+  return '/mis-reservas';
 }
