@@ -12,7 +12,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 
 | Fase                | Tareas  | Completadas |
 | ------------------- | ------- | ----------- |
-| 1. Inicialización   | T01–T04 | 3/4         |
+| 1. Inicialización   | T01–T04 | 4/4         |
 | 2. Backend y DB     | T05–T15 | 0/11        |
 | 3. Frontend         | T16–T23 | 0/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
@@ -42,9 +42,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T02
   - RN: RN-024
   - Criterios: test de integración del health check y del formato de error en verde.
-  - Commit: —
+  - Commit: `8ece910`
 
-- [ ] **T04 — Esqueleto del frontend**
+- [x] **T04 — Esqueleto del frontend**
   - Descripción: Vite + React + Tailwind 4, tokens de diseño, React Router, TanStack Query, proxy `/api` en desarrollo.
   - Dependencias: T02
   - RN: —
