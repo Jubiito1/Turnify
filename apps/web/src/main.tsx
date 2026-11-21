@@ -3,6 +3,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router';
 import { Toaster } from 'sonner';
+import { ServerStatusBanner } from './components/ServerStatusBanner';
 import { AuthProvider } from './features/auth/AuthProvider';
 import { createQueryClient } from './lib/query-client';
 import { createRouter } from './router';
@@ -19,6 +20,7 @@ createRoot(rootElement).render(
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <RouterProvider router={router} />
+        <ServerStatusBanner />
         <Toaster position="top-right" richColors closeButton />
       </AuthProvider>
     </QueryClientProvider>

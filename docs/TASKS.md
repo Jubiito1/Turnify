@@ -14,7 +14,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
 | 2. Backend y DB     | T05–T15 | 11/11       |
-| 3. Frontend         | T16–T23 | 7/8         |
+| 3. Frontend         | T16–T23 | 8/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
 | 6. Auditoría        | T28     | 0/1         |
@@ -179,9 +179,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T21
   - RN: RN-010, RN-026, RN-033
   - Criterios: tests de componentes.
-  - Commit: —
+  - Commit: `f93a3b6`
 
-- [ ] **T23 — Notificaciones, responsive y accesibilidad**
+- [x] **T23 — Notificaciones, responsive y accesibilidad**
   - Descripción: centro de notificaciones, ajustes responsive y de accesibilidad, página 404.
   - Dependencias: T22
   - RN: —

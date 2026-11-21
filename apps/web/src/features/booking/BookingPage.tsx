@@ -1,3 +1,4 @@
+import { usePageTitle } from '../../lib/usePageTitle';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { AvailabilitySlot, BookingDTO } from '@turnify/shared';
 import { clsx } from 'clsx';
@@ -30,6 +31,7 @@ const SLOT_ERRORS = new Set(['SLOT_TAKEN', 'SLOT_UNAVAILABLE', 'BOOKING_IN_PAST'
 
 /** Booking wizard. The selection lives in the URL so it survives login/registration redirects. */
 export function BookingPage() {
+  usePageTitle('Reservar turno');
   const { slug = '' } = useParams();
   const location = useLocation();
   const [params, setParams] = useSearchParams();

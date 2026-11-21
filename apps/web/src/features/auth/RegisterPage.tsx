@@ -1,3 +1,4 @@
+import { usePageTitle } from '../../lib/usePageTitle';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema, type RegisterInput } from '@turnify/shared';
 import { useForm } from 'react-hook-form';
@@ -10,6 +11,7 @@ import { homeFor, useAuth } from './AuthProvider';
 import { useApiFormError } from './useApiForm';
 
 export function RegisterPage() {
+  usePageTitle('Crear cuenta');
   const { user, register } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();

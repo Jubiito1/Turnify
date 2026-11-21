@@ -1,6 +1,8 @@
+import { usePageTitle } from '../lib/usePageTitle';
 import { Link } from 'react-router';
 
 export function NotFoundPage() {
+  usePageTitle('Página no encontrada');
   return (
     <main className="mx-auto flex min-h-[70vh] max-w-lg flex-col items-center justify-center gap-4 px-4 text-center">
       <p className="font-display text-7xl font-extrabold text-pine-200">404</p>

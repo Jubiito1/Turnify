@@ -1,3 +1,4 @@
+import { usePageTitle } from '../../lib/usePageTitle';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginInput } from '@turnify/shared';
 import { useForm } from 'react-hook-form';
@@ -21,6 +22,7 @@ function safeNext(next: string | null): string | null {
 }
 
 export function LoginPage() {
+  usePageTitle('Ingresar');
   const { user, login } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();

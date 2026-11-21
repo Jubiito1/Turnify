@@ -5,12 +5,9 @@ import { setupServer } from 'msw/node';
 /** API mock for component tests (network level, the real fetch client is exercised). */
 export const server = setupServer(
   // Default: anonymous visitor.
-  http.get('*/api/auth/me', () =>
-    HttpResponse.json(
-      { error: { code: 'UNAUTHENTICATED', message: 'Necesitas iniciar sesión' } },
-      { status: 401 },
-    ),
-  ),
+  http.get('*/api/auth/session', () => HttpResponse.json({ user: null })),
+  // Default: empty notification center.
+  http.get('*/api/notifications', () => HttpResponse.json({ unreadCount: 0, items: [] })),
   // Default: empty public catalog (landing page).
   http.get('*/api/businesses', () =>
     HttpResponse.json({ items: [], total: 0, page: 1, pageSize: 6 }),
@@ -94,9 +91,9 @@ export function adminPanelHandlers() {
   ];
 }
 
-/** Handler that makes GET /auth/me return the given user. */
+/** Handler that makes the session probe return the given user. */
 export function signedInAs(user: SessionUser) {
-  return http.get('*/api/auth/me', () => HttpResponse.json({ user }));
+  return http.get('*/api/auth/session', () => HttpResponse.json({ user }));
 }
 
 /** Minimal professional panel API: profile plus empty agenda/blocks. */

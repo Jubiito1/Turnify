@@ -5,6 +5,7 @@ import { Link, NavLink, Outlet, useLocation } from 'react-router';
 import { Logo } from '../components/Logo';
 import { useAuth } from '../features/auth/AuthProvider';
 import { ACCOUNT_LINKS } from './nav';
+import { NotificationBell } from '../features/notifications/NotificationBell';
 import { UserMenu } from './UserMenu';
 
 export interface PanelNavItem {
@@ -113,6 +114,7 @@ export function PanelLayout({
           <div className="hidden lg:block" />
           <div className="flex items-center gap-2">
             {headerExtra}
+            <NotificationBell />
             {user && <UserMenu links={ACCOUNT_LINKS[user.role]} />}
           </div>
         </header>

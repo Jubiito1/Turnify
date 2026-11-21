@@ -115,6 +115,15 @@ describe('auth', () => {
       expect(res.body.error.code).toBe('UNAUTHENTICATED');
     });
 
+    it('GET /api/auth/session answers 200 with the user or null', async () => {
+      expect((await request(app).get('/api/auth/session')).body).toEqual({ user: null });
+      await createUser({ email: 'probe@test.dev' });
+      const agent = await loginAs('probe@test.dev');
+      const res = await agent.get('/api/auth/session');
+      expect(res.status).toBe(200);
+      expect(res.body.user.email).toBe('probe@test.dev');
+    });
+
     it('rejects a tampered session token', async () => {
       const res = await request(app)
         .get('/api/auth/me')

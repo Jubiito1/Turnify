@@ -7,7 +7,7 @@ import {
   updateProfileSchema,
 } from '@turnify/shared';
 import { parse } from '../../lib/validate';
-import { authenticate, getAuth } from '../../middleware/auth';
+import { authenticate, getAuth, optionalAuth } from '../../middleware/auth';
 import * as businessService from '../business/business.service';
 import * as authService from './auth.service';
 import { clearSessionCookie, setSessionCookie } from './session';
@@ -40,6 +40,11 @@ export function createAuthRouter(authRateLimiter: RequestHandler) {
   router.post('/logout', (_req, res) => {
     clearSessionCookie(res);
     res.status(204).end();
+  });
+
+  /** Session probe for the web app: 200 with the user or null (avoids 401 noise for visitors). */
+  router.get('/session', optionalAuth, async (req, res) => {
+    res.json({ user: req.auth ? await authService.getSessionUser(req.auth.userId) : null });
   });
 
   router.get('/me', authenticate, async (req, res) => {

@@ -1,3 +1,4 @@
+import { usePageTitle } from '../../lib/usePageTitle';
 import { useQuery } from '@tanstack/react-query';
 import {
   BUSINESS_CATEGORIES,
@@ -21,6 +22,7 @@ function isCategory(value: string | null): value is BusinessCategory {
 
 /** Business search with text, category filter and pagination, all mirrored in the URL. */
 export function ExplorePage() {
+  usePageTitle('Explorar negocios');
   const [params, setParams] = useSearchParams();
   const q = params.get('q') ?? '';
   const rubro = params.get('rubro');

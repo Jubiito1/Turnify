@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import type { HTMLAttributes, ReactNode } from 'react';
+import { usePageTitle } from '../../lib/usePageTitle';
 
 export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
@@ -46,6 +47,7 @@ export function PageHeader({
   description?: ReactNode;
   actions?: ReactNode;
 }) {
+  usePageTitle(typeof title === 'string' ? title : undefined);
   return (
     <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
       <div className="min-w-0">

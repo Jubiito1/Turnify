@@ -1,3 +1,4 @@
+import { usePageTitle } from '../../lib/usePageTitle';
 import { useQuery } from '@tanstack/react-query';
 import { BUSINESS_CATEGORY_LABELS } from '@turnify/shared';
 import { Clock, MapPin, Phone, ShieldCheck, UserRound } from 'lucide-react';
@@ -14,6 +15,7 @@ import { catalogQueries } from './queries';
 export function BusinessPage() {
   const { slug = '' } = useParams();
   const { data, isLoading, error, refetch } = useQuery(catalogQueries.business(slug));
+  usePageTitle(data?.business.name);
 
   if (error instanceof ApiError && error.status === 404) return <NotFoundPage />;
   if (error) {

@@ -1,3 +1,4 @@
+import { usePageTitle } from '../lib/usePageTitle';
 import { useQuery } from '@tanstack/react-query';
 import { BUSINESS_CATEGORIES, BUSINESS_CATEGORY_LABELS } from '@turnify/shared';
 import { CalendarCheck, Clock, Search, ShieldCheck } from 'lucide-react';
@@ -28,6 +29,7 @@ const STEPS = [
 ];
 
 export function HomePage() {
+  usePageTitle(undefined);
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const featured = useQuery(catalogQueries.list({ pageSize: 6 }));

@@ -1,3 +1,4 @@
+import { usePageTitle } from '../../lib/usePageTitle';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   BUSINESS_CATEGORIES,
@@ -29,6 +30,7 @@ export const TIMEZONE_OPTIONS = [
 
 /** Business onboarding in two steps: owner account, then business details. */
 export function RegisterBusinessPage() {
+  usePageTitle('Registrar negocio');
   const { user, registerBusiness } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState<1 | 2>(1);

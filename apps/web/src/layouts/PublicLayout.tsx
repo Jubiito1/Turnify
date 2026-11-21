@@ -3,6 +3,7 @@ import { clsx } from 'clsx';
 import { Logo } from '../components/Logo';
 import { useAuth } from '../features/auth/AuthProvider';
 import { ACCOUNT_LINKS } from './nav';
+import { NotificationBell } from '../features/notifications/NotificationBell';
 import { UserMenu } from './UserMenu';
 
 export const PUBLIC_NAV: { to: string; label: string }[] = [{ to: '/explorar', label: 'Explorar' }];
@@ -15,7 +16,7 @@ export function PublicHeader() {
         <Link to="/" aria-label="Turnify, ir al inicio" className="shrink-0">
           <Logo />
         </Link>
-        <nav aria-label="Principal" className="hidden items-center gap-1 md:flex">
+        <nav aria-label="Principal" className="flex items-center gap-1">
           {PUBLIC_NAV.map((item) => (
             <NavLink
               key={item.to}
@@ -33,7 +34,10 @@ export function PublicHeader() {
         </nav>
         <div className="flex items-center gap-2">
           {isLoading ? null : user ? (
-            <UserMenu links={ACCOUNT_LINKS[user.role]} />
+            <>
+              <NotificationBell />
+              <UserMenu links={ACCOUNT_LINKS[user.role]} />
+            </>
           ) : (
             <>
               <Link
@@ -44,7 +48,7 @@ export function PublicHeader() {
               </Link>
               <Link
                 to="/registro"
-                className="rounded-xl bg-pine-700 px-4 py-2 text-sm font-semibold text-white hover:bg-pine-800"
+                className="hidden rounded-xl bg-pine-700 px-4 py-2 text-sm font-semibold text-white hover:bg-pine-800 sm:inline-flex"
               >
                 Crear cuenta
               </Link>

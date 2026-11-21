@@ -34,10 +34,8 @@ describe('login', () => {
         loggedIn = true;
         return HttpResponse.json({ user: demoUsers.admin });
       }),
-      http.get('*/api/auth/me', () =>
-        loggedIn
-          ? HttpResponse.json({ user: demoUsers.admin })
-          : apiError(401, 'UNAUTHENTICATED', 'Necesitas iniciar sesión'),
+      http.get('*/api/auth/session', () =>
+        HttpResponse.json({ user: loggedIn ? demoUsers.admin : null }),
       ),
       ...adminPanelHandlers(),
     );

@@ -12,6 +12,8 @@ import { api, ApiError } from '../../lib/api';
 interface AuthContextValue {
   user: SessionUser | null;
   isLoading: boolean;
+  /** True while the API is not answering yet (e.g. free-tier cold start) and we keep retrying. */
+  connecting: boolean;
   login: (input: LoginInput) => Promise<SessionUser>;
   register: (input: RegisterInput) => Promise<SessionUser>;
   registerBusiness: (
@@ -24,23 +26,22 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | null>(null);
 export const ME_QUERY_KEY = ['auth', 'me'] as const;
 
-async function fetchMe(): Promise<SessionUser | null> {
-  try {
-    const { user } = await api<{ user: SessionUser }>('/auth/me');
-    return user;
-  } catch (error) {
-    if (error instanceof ApiError && error.status === 401) return null;
-    throw error;
-  }
+async function fetchSession(): Promise<SessionUser | null> {
+  const { user } = await api<{ user: SessionUser | null }>('/auth/session');
+  return user;
 }
 
-/** Session state backed by the httpOnly cookie; the server is the source of truth (GET /auth/me). */
+/** Session state backed by the httpOnly cookie; the server is the source of truth (GET /auth/session). */
 export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, failureCount } = useQuery({
     queryKey: ME_QUERY_KEY,
-    queryFn: fetchMe,
+    queryFn: fetchSession,
     staleTime: 5 * 60_000,
+    // A sleeping free-tier backend can take up to a minute to answer: keep retrying network/5xx errors.
+    retry: (count, error) =>
+      !(error instanceof ApiError && error.status >= 400 && error.status < 500) && count < 12,
+    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 8000),
   });
 
   /** Drops cached data of the previous session without touching the session query itself. */
@@ -58,6 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     () => ({
       user: data ?? null,
       isLoading,
+      connecting: isLoading && failureCount > 0,
       setUser,
       async login(input) {
         const { user } = await api<{ user: SessionUser }>('/auth/login', {
@@ -95,7 +97,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(null);
       },
     }),
-    [data, isLoading, resetUserData, setUser],
+    [data, isLoading, failureCount, resetUserData, setUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
