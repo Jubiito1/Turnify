@@ -185,3 +185,32 @@ Transiciones válidas: `PENDING → CONFIRMED | CANCELLED`, `CONFIRMED → COMPL
 | `GET`  | `/api/admin/clients?q=&page=&pageSize=`                                               | Admin       | Clientes con al menos una reserva en el negocio → `ClientSummaryDTO` (`totalBookings`, `completedBookings`, `lastBookingAt`)                     |
 | `GET`  | `/api/pro/me`                                                                         | Profesional | Perfil propio, negocio y horario                                                                                                                 |
 | `GET`  | `/api/pro/bookings?from=&to=&status=&page=&pageSize=`                                 | Profesional | Agenda e historial propios (RN-010)                                                                                                              |
+
+## Estadísticas
+
+### `GET /api/admin/stats?from=AAAA-MM-DD&to=AAAA-MM-DD`
+
+Admin. Métricas calculadas sobre reservas persistidas en el rango local (por defecto, últimos 30 días; máximo 366) (RN-022).
+
+| Campo                                                       | Significado                                                                                       |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `totals.bookings / active / completed / cancelled / noShow` | Conteos por estado                                                                                |
+| `totals.revenueCents`                                       | Suma exacta (centavos) de reservas `COMPLETED`                                                    |
+| `totals.expectedRevenueCents`                               | Suma de reservas activas (`PENDING`/`CONFIRMED`)                                                  |
+| `totals.uniqueClients`                                      | Clientes distintos con reservas no canceladas                                                     |
+| `totals.cancellationRate`                                   | Canceladas / total                                                                                |
+| `totals.occupancyRate`                                      | Minutos reservados (no cancelados) / minutos laborales ofrecidos por profesionales activos        |
+| `byService[]`, `byProfessional[]`                           | Reservas, completadas e ingresos; los profesionales incluyen `bookedMinutes` y `availableMinutes` |
+| `byDay[]`                                                   | Reservas no canceladas e ingresos por fecha local                                                 |
+
+Rango inválido → `422 INVALID_RANGE`.
+
+## Notificaciones
+
+| Método | Ruta                                        | Descripción                                       |
+| ------ | ------------------------------------------- | ------------------------------------------------- |
+| `GET`  | `/api/notifications?unreadOnly=true\|false` | Últimas 30 notificaciones propias y `unreadCount` |
+| `POST` | `/api/notifications/:id/read`               | Marca una como leída (solo propias)               |
+| `POST` | `/api/notifications/read-all`               | Marca todas como leídas                           |
+
+Se generan automáticamente ante eventos de reservas: el cliente recibe avisos de cambios hechos por el negocio (y un comprobante al reservar); el administrador y el profesional asignado reciben avisos de cambios hechos por otros.

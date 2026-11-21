@@ -13,7 +13,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | Fase                | Tareas  | Completadas |
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
-| 2. Backend y DB     | T05–T15 | 10/11       |
+| 2. Backend y DB     | T05–T15 | 11/11       |
 | 3. Frontend         | T16–T23 | 0/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
@@ -121,9 +121,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T13
   - RN: RN-009, RN-010, RN-011, RN-021, RN-025
   - Criterios: tests de integración de filtros, ámbitos y CSV.
-  - Commit: —
+  - Commit: `c49053f`
 
-- [ ] **T15 — Estadísticas y notificaciones**
+- [x] **T15 — Estadísticas y notificaciones**
   - Descripción: métricas agregadas por rango (totales, ingresos, cancelaciones, ocupación, por servicio y profesional) y notificaciones internas ante eventos de reservas.
   - Dependencias: T14
   - RN: RN-022

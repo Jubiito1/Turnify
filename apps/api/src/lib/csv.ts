@@ -11,8 +11,10 @@ function escapeCell(value: string | number | null | undefined): string {
   return text;
 }
 
+const BOM = String.fromCharCode(0xfeff);
+
 export function toCsv(header: string[], rows: (string | number | null | undefined)[][]): string {
   const lines = [header, ...rows].map((row) => row.map(escapeCell).join(','));
   // BOM so Excel opens UTF-8 (accents) correctly.
-  return `﻿${lines.join('\r\n')}\r\n`;
+  return `${BOM}${lines.join('\r\n')}\r\n`;
 }

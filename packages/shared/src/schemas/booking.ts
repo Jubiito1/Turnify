@@ -121,3 +121,16 @@ export const clientListQuerySchema = paginationSchema.extend({
   q: z.string().trim().max(80).optional(),
 });
 export type ClientListQuery = z.infer<typeof clientListQuerySchema>;
+
+export const statsQuerySchema = z.object({
+  from: dateOnlySchema.optional(),
+  to: dateOnlySchema.optional(),
+});
+export type StatsQuery = z.infer<typeof statsQuerySchema>;
+
+export const notificationListQuerySchema = z.object({
+  unreadOnly: z
+    .enum(['true', 'false'])
+    .optional()
+    .transform((v) => v === 'true'),
+});

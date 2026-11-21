@@ -15,6 +15,14 @@ import { getAdminBusinessId, getAuth, getProfessionalContext } from '../../middl
 import * as lifecycle from './booking-lifecycle.service';
 import * as queries from './booking-queries.service';
 import * as bookingService from './booking.service';
+import { notifyBookingEvent, type BookingEvent } from '../notifications/notifications.service';
+import type { BookingStatus } from '@turnify/shared';
+
+const EVENT_BY_STATUS: Partial<Record<BookingStatus, BookingEvent>> = {
+  CONFIRMED: 'confirmed',
+  CANCELLED: 'cancelled',
+  COMPLETED: 'completed',
+};
 
 function adminActor(req: Request) {
   return {
@@ -35,6 +43,7 @@ clientBookingsRouter.get('/', async (req, res) => {
 clientBookingsRouter.post('/', async (req, res) => {
   const input = parse(createBookingSchema, req.body);
   const booking = await bookingService.createClientBooking(getAuth(req).userId, input);
+  await notifyBookingEvent('created', booking, 'client');
   res.status(201).json({ booking });
 });
 
@@ -53,6 +62,7 @@ clientBookingsRouter.post('/:id/cancel', async (req, res) => {
     parseId(req.params.id),
     input.reason,
   );
+  await notifyBookingEvent('cancelled', booking, 'client');
   res.json({ booking });
 });
 
@@ -64,6 +74,7 @@ clientBookingsRouter.post('/:id/reschedule', async (req, res) => {
     // Clients cannot pick another professional when rescheduling.
     { startsAt: input.startsAt },
   );
+  await notifyBookingEvent('rescheduled', booking, 'client');
   res.json({ booking });
 });
 
@@ -93,6 +104,7 @@ adminBookingsRouter.get('/export.csv', async (req, res) => {
 adminBookingsRouter.post('/', async (req, res) => {
   const input = parse(adminCreateBookingSchema, req.body);
   const booking = await bookingService.createAdminBooking(getAdminBusinessId(req), input);
+  await notifyBookingEvent('created', booking, 'admin');
   res.status(201).json({ booking });
 });
 
@@ -104,12 +116,15 @@ adminBookingsRouter.get('/:id', async (req, res) => {
 adminBookingsRouter.patch('/:id/status', async (req, res) => {
   const input = parse(updateBookingStatusSchema, req.body);
   const booking = await lifecycle.updateStatus(adminActor(req), parseId(req.params.id), input);
+  const event = EVENT_BY_STATUS[booking.status];
+  if (event) await notifyBookingEvent(event, booking, 'admin');
   res.json({ booking });
 });
 
 adminBookingsRouter.post('/:id/reschedule', async (req, res) => {
   const input = parse(rescheduleBookingSchema, req.body);
   const booking = await lifecycle.reschedule(adminActor(req), parseId(req.params.id), input);
+  await notifyBookingEvent('rescheduled', booking, 'admin');
   res.json({ booking });
 });
 
@@ -143,5 +158,7 @@ proBookingsRouter.patch('/:id/status', async (req, res) => {
     parseId(req.params.id),
     input,
   );
+  const event = EVENT_BY_STATUS[booking.status];
+  if (event) await notifyBookingEvent(event, booking, 'professional');
   res.json({ booking });
 });

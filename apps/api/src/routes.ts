@@ -11,9 +11,11 @@ import {
 import { adminBusinessRouter } from './modules/business/business.routes';
 import { catalogRouter } from './modules/catalog/catalog.routes';
 import { healthRouter } from './modules/health/health.routes';
+import { notificationsRouter } from './modules/notifications/notifications.routes';
 import { proProfileRouter } from './modules/pro/pro.routes';
 import { adminProfessionalsRouter } from './modules/professionals/professionals.routes';
 import { adminServicesRouter } from './modules/services/services.routes';
+import { adminStatsRouter } from './modules/stats/stats.routes';
 
 interface ApiRouterDeps {
   authRateLimiter: RequestHandler;
@@ -31,6 +33,9 @@ export function createApiRouter({ authRateLimiter }: ApiRouterDeps) {
   // Client self-service: only the client's own bookings (RN-009).
   api.use('/bookings', authenticate, requireRole('CLIENT'), clientBookingsRouter);
 
+  // Any authenticated user: own in-app notifications.
+  api.use('/notifications', authenticate, notificationsRouter);
+
   // Admin: every route requires an ADMIN session; resources are scoped to its business (RN-011).
   const admin = Router();
   admin.use(authenticate, requireRole('ADMIN'));
@@ -40,6 +45,7 @@ export function createApiRouter({ authRateLimiter }: ApiRouterDeps) {
   admin.use('/blocks', adminBlocksRouter);
   admin.use('/bookings', adminBookingsRouter);
   admin.use('/clients', adminClientsRouter);
+  admin.use('/stats', adminStatsRouter);
   api.use('/admin', admin);
 
   // Professional panel: only the professional's own agenda (RN-010).
