@@ -21,11 +21,9 @@ const DURATIONS = [15, 20, 30, 45, 60, 75, 90, 120, 150, 180, 240];
 
 /** Form schema: the price is typed as a decimal string and converted to integer cents (RN-018). */
 const formSchema = serviceCreateSchema.omit({ priceCents: true }).extend({
-  price: z
-    .string()
-    .refine((v) => parseAmountToCents(v) !== null, {
-      message: 'Ingresa un precio válido (ej.: 1500 o 1500,50)',
-    }),
+  price: z.string().refine((v) => parseAmountToCents(v) !== null, {
+    message: 'Ingresa un precio válido (ej.: 1500 o 1500,50)',
+  }),
 });
 type FormValues = z.input<typeof formSchema>;
 
@@ -170,7 +168,7 @@ function ServiceFormDialog({
     defaultValues: {
       name: service?.name ?? '',
       description: service?.description ?? '',
-      durationMinutes: service?.durationMinutes ?? 30,
+      durationMinutes: String(service?.durationMinutes ?? 30),
       price: service ? centsToAmountString(service.priceCents) : '',
       isActive: service?.isActive ?? true,
     },
@@ -227,7 +225,7 @@ function ServiceFormDialog({
             label="Duración"
             required
             error={errors.durationMinutes?.message}
-            {...form.register('durationMinutes', { valueAsNumber: true })}
+            {...form.register('durationMinutes')}
           >
             {DURATIONS.map((d) => (
               <option key={d} value={d}>

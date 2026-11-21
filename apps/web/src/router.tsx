@@ -1,6 +1,9 @@
 import { createBrowserRouter, type RouteObject } from 'react-router';
 import { MyBookingsPage } from './features/account/MyBookingsPage';
 import { ProfilePage } from './features/account/ProfilePage';
+import { AdminBlocksPage, ClientsPage, SettingsPage } from './features/admin/AdminExtraPages';
+import { BookingsPage } from './features/admin/BookingsPage';
+import { CalendarPage } from './features/admin/CalendarPage';
 import { DashboardPage } from './features/admin/DashboardPage';
 import { ProfessionalDetailPage } from './features/admin/ProfessionalDetailPage';
 import { ProfessionalsPage } from './features/admin/ProfessionalsPage';
@@ -60,6 +63,11 @@ export const routes: RouteObject[] = [
       { path: 'servicios', element: <ServicesPage /> },
       { path: 'profesionales', element: <ProfessionalsPage /> },
       { path: 'profesionales/:id', element: <ProfessionalDetailPage /> },
+      { path: 'calendario', element: <CalendarPage /> },
+      { path: 'reservas', element: <BookingsPage /> },
+      { path: 'bloqueos', element: <AdminBlocksPage /> },
+      { path: 'clientes', element: <ClientsPage /> },
+      { path: 'configuracion', element: <SettingsPage /> },
     ],
   },
   {
