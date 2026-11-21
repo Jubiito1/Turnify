@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { ChevronDown, LogOut } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { toast } from 'sonner';
 import { useAuth } from '../features/auth/AuthProvider';
 import { initials } from '../lib/format';
@@ -15,7 +15,6 @@ const ROLE_LABEL = {
 /** Account dropdown: keyboard accessible (Esc closes, focus returns to the trigger). */
 export function UserMenu({ links }: { links: { to: string; label: string }[] }) {
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -43,9 +42,11 @@ export function UserMenu({ links }: { links: { to: string; label: string }[] }) 
 
   const handleLogout = async () => {
     setOpen(false);
-    await logout();
-    toast.success('Sesión cerrada');
-    navigate('/');
+    try {
+      await logout();
+    } catch {
+      toast.error('No pudimos cerrar la sesión. Inténtalo de nuevo.');
+    }
   };
 
   return (

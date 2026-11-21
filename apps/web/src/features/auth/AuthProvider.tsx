@@ -93,8 +93,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       },
       async logout() {
         await api('/auth/logout', { method: 'POST' });
-        resetUserData();
-        setUser(null);
+        // Full reload to the landing page: drops every cached query and avoids route guards of the
+        // page being left reacting to the cleared session mid-transition.
+        window.location.replace('/');
       },
     }),
     [data, isLoading, failureCount, resetUserData, setUser],

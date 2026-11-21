@@ -15,7 +15,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | 1. Inicialización   | T01–T04 | 4/4         |
 | 2. Backend y DB     | T05–T15 | 11/11       |
 | 3. Frontend         | T16–T23 | 8/8         |
-| 4. Integración y QA | T24–T25 | 0/2         |
+| 4. Integración y QA | T24–T25 | 1/2         |
 | 5. Producción       | T26–T27 | 0/2         |
 | 6. Auditoría        | T28     | 0/1         |
 
@@ -186,11 +186,11 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T22
   - RN: —
   - Criterios: build y suite de componentes en verde.
-  - Commit: —
+  - Commit: `74d93f3`
 
 ## Fase 4 — Integración y QA
 
-- [ ] **T24 — Tests end-to-end**
+- [x] **T24 — Tests end-to-end**
   - Descripción: Playwright contra API + web locales con PostgreSQL efímero: registro/login, reserva, cancelación, reprogramación, administración de servicios y profesionales, agenda.
   - Dependencias: T23
   - RN: RN-001, RN-006, RN-013, RN-016, RN-024
