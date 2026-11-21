@@ -8,7 +8,7 @@ describe('API skeleton', () => {
   it('GET /api/health responds ok', async () => {
     const res = await request(app).get('/api/health');
     expect(res.status).toBe(200);
-    expect(res.body).toMatchObject({ status: 'ok', service: 'turnify-api' });
+    expect(res.body).toMatchObject({ status: 'ok', service: 'turnify-api', database: 'ok' });
   });
 
   it('unknown routes return the standard error shape', async () => {

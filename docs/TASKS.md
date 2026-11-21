@@ -13,7 +13,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | Fase                | Tareas  | Completadas |
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
-| 2. Backend y DB     | T05–T15 | 0/11        |
+| 2. Backend y DB     | T05–T15 | 1/11        |
 | 3. Frontend         | T16–T23 | 0/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
@@ -49,11 +49,11 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T02
   - RN: —
   - Criterios: `npm run build -w apps/web` y un test de render en verde.
-  - Commit: —
+  - Commit: `c08e4c8`
 
 ## Fase 2 — Backend y base de datos
 
-- [ ] **T05 — Esquema de base de datos y migraciones**
+- [x] **T05 — Esquema de base de datos y migraciones**
   - Descripción: modelos Prisma, migración inicial, restricciones `CHECK` y de exclusión (`btree_gist`), índices, seed demo y harness de PostgreSQL efímero para tests.
   - Dependencias: T03
   - RN: RN-006, RN-012, RN-018, RN-019, RN-020, RN-028

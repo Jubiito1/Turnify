@@ -23,7 +23,8 @@
     "test:e2e": "playwright test",
     "db:dev": "npm run db:dev -w @turnify/api",
     "db:migrate": "npm run db:migrate -w @turnify/api",
-    "db:seed": "npm run db:seed -w @turnify/api"
+    "db:seed": "npm run db:seed -w @turnify/api",
+    "postinstall": "npm run db:generate -w @turnify/api"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
