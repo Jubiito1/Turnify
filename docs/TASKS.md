@@ -13,7 +13,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | Fase                | Tareas  | Completadas |
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
-| 2. Backend y DB     | T05–T15 | 4/11        |
+| 2. Backend y DB     | T05–T15 | 5/11        |
 | 3. Frontend         | T16–T23 | 0/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
@@ -79,9 +79,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T07
   - RN: RN-002, RN-011, RN-017, RN-018, RN-025
   - Criterios: tests de integración de ABM, validaciones y aislamiento.
-  - Commit: —
+  - Commit: `74eab0c`
 
-- [ ] **T09 — Profesionales**
+- [x] **T09 — Profesionales**
   - Descripción: ABM de profesionales (con cuenta opcional), asignación de servicios, horarios laborales, permisos y desactivación sin pérdida de historial.
   - Dependencias: T08
   - RN: RN-003, RN-023, RN-030, RN-033

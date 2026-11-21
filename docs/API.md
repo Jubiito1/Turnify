@@ -77,3 +77,16 @@ Todas las rutas `/api/admin/*` requieren sesión con rol `ADMIN` (`401` sin sesi
 | `DELETE` | `/api/admin/services/:id` | Solo si no tiene reservas; si tiene → `409 SERVICE_HAS_BOOKINGS`                                                               |
 
 Un servicio de otro negocio responde `404` (RN-011, RN-021).
+
+### Profesionales (`/api/admin/professionals`)
+
+| Método  | Ruta                                         | Descripción                                                                                                                                                                                |
+| ------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `GET`   | `/api/admin/professionals`                   | Todos los profesionales (activos primero) → `{ items: ProfessionalDTO[] }`                                                                                                                 |
+| `POST`  | `/api/admin/professionals`                   | Body: `{ displayName, bio?, isActive?, canManageBlocks?, canCompleteBookings?, account?: { email, password } }`. Con `account` se crea un usuario `PROFESSIONAL` para el panel profesional |
+| `GET`   | `/api/admin/professionals/:id`               | Detalle                                                                                                                                                                                    |
+| `PATCH` | `/api/admin/professionals/:id`               | Actualización parcial; `isActive: false` desactiva sin borrar historial (RN-023)                                                                                                           |
+| `PUT`   | `/api/admin/professionals/:id/services`      | Reemplaza servicios asignados. Body: `{ serviceIds: uuid[] }`. Servicios de otro negocio → `422 INVALID_SERVICE_ASSIGNMENT`                                                                |
+| `PUT`   | `/api/admin/professionals/:id/working-hours` | Reemplaza el horario semanal. Body: `{ hours: [{ weekday (0=domingo…6), startMinute, endMinute }] }` en minutos locales del negocio; franjas superpuestas → `400` (RN-030)                 |
+
+`ProfessionalDTO`: `{ id, displayName, bio, isActive, canManageBlocks, canCompleteBookings, account: { email } | null, serviceIds, workingHours }`.
