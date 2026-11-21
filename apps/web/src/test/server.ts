@@ -51,6 +51,47 @@ export const demoUsers: Record<'client' | 'admin' | 'pro', SessionUser> = {
   },
 };
 
+/** Minimal admin panel API (business, empty stats, no pending bookings). */
+export function adminPanelHandlers() {
+  return [
+    http.get('*/api/admin/business', () =>
+      HttpResponse.json({
+        business: {
+          id: 'b',
+          name: 'Estudio Lumen',
+          slug: 'estudio-lumen',
+          timezone: 'America/Argentina/Buenos_Aires',
+        },
+      }),
+    ),
+    http.get('*/api/admin/stats', () =>
+      HttpResponse.json({
+        stats: {
+          range: { from: '2030-01-01', to: '2030-01-07' },
+          totals: {
+            bookings: 0,
+            active: 0,
+            completed: 0,
+            cancelled: 0,
+            noShow: 0,
+            revenueCents: 0,
+            expectedRevenueCents: 0,
+            uniqueClients: 0,
+            cancellationRate: 0,
+            occupancyRate: 0,
+          },
+          byService: [],
+          byProfessional: [],
+          byDay: [],
+        },
+      }),
+    ),
+    http.get('*/api/admin/bookings', () =>
+      HttpResponse.json({ items: [], total: 0, page: 1, pageSize: 5 }),
+    ),
+  ];
+}
+
 /** Handler that makes GET /auth/me return the given user. */
 export function signedInAs(user: SessionUser) {
   return http.get('*/api/auth/me', () => HttpResponse.json({ user }));

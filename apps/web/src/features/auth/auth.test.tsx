@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
 import { renderApp } from '../../test/render';
-import { apiError, demoUsers, server } from '../../test/server';
+import { adminPanelHandlers, apiError, demoUsers, server } from '../../test/server';
 
 describe('login', () => {
   it('validates required fields on the client before calling the API', async () => {
@@ -39,24 +39,13 @@ describe('login', () => {
           ? HttpResponse.json({ user: demoUsers.admin })
           : apiError(401, 'UNAUTHENTICATED', 'Necesitas iniciar sesión'),
       ),
-      http.get('*/api/admin/business', () =>
-        HttpResponse.json({
-          business: {
-            id: 'b',
-            name: 'Estudio Lumen',
-            slug: 'estudio-lumen',
-            timezone: 'America/Argentina/Buenos_Aires',
-          },
-        }),
-      ),
+      ...adminPanelHandlers(),
     );
     const { user, router } = renderApp('/ingresar');
     await user.click(await screen.findByRole('button', { name: 'Administrador' }));
     await user.click(screen.getByRole('button', { name: /^ingresar$/i }));
     await waitFor(() => expect(router.state.location.pathname).toBe('/admin'));
-    expect(
-      await screen.findByRole('heading', { name: /hola, estudio lumen/i }),
-    ).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Resumen' })).toBeInTheDocument();
   });
 
   it('ignores unsafe external "next" redirects', async () => {

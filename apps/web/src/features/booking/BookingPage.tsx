@@ -454,7 +454,7 @@ function StepCard({
         <div className="min-w-0">
           <h2 className={clsx('text-lg font-bold', done && 'text-sand-500')}>{title}</h2>
           {done && summary && (
-            <p className="mt-0.5 truncate font-semibold text-sand-900">{summary}</p>
+            <p className="mt-0.5 font-semibold break-words text-sand-900">{summary}</p>
           )}
         </div>
         {done && (

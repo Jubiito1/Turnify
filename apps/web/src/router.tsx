@@ -1,7 +1,7 @@
 import { createBrowserRouter, type RouteObject } from 'react-router';
 import { MyBookingsPage } from './features/account/MyBookingsPage';
 import { ProfilePage } from './features/account/ProfilePage';
-import { AdminHomePage } from './features/admin/AdminHomePage';
+import { DashboardPage } from './features/admin/DashboardPage';
 import { AdminLayout } from './features/admin/AdminLayout';
 import { LoginPage } from './features/auth/LoginPage';
 import { RegisterBusinessPage } from './features/auth/RegisterBusinessPage';
@@ -52,7 +52,7 @@ export const routes: RouteObject[] = [
         <AdminLayout />
       </RequireRole>
     ),
-    children: [{ index: true, element: <AdminHomePage /> }],
+    children: [{ index: true, element: <DashboardPage /> }],
   },
   {
     path: '/pro',
