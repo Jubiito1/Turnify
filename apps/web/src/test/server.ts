@@ -89,6 +89,8 @@ export function adminPanelHandlers() {
     http.get('*/api/admin/bookings', () =>
       HttpResponse.json({ items: [], total: 0, page: 1, pageSize: 5 }),
     ),
+    http.get('*/api/admin/services', () => HttpResponse.json({ items: [] })),
+    http.get('*/api/admin/professionals', () => HttpResponse.json({ items: [] })),
   ];
 }
 

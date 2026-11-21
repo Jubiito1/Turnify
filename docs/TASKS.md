@@ -14,7 +14,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
 | 2. Backend y DB     | T05–T15 | 11/11       |
-| 3. Frontend         | T16–T23 | 4/8         |
+| 3. Frontend         | T16–T23 | 5/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
 | 6. Auditoría        | T28     | 0/1         |
@@ -158,9 +158,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T16, T15
   - RN: RN-022
   - Criterios: test de render con datos.
-  - Commit: —
+  - Commit: `7a6682b`
 
-- [ ] **T20 — Panel administrativo: servicios y profesionales**
+- [x] **T20 — Panel administrativo: servicios y profesionales**
   - Descripción: ABM de servicios y profesionales, asignaciones, horarios y permisos.
   - Dependencias: T19
   - RN: RN-017, RN-023, RN-030, RN-033

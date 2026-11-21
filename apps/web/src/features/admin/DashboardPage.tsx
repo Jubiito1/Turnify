@@ -12,6 +12,7 @@ import { formatDayLabel, formatPrice, formatShortDateTime, todayIn } from '../..
 import { DateTime } from 'luxon';
 import { adminBusinessQuery } from './AdminLayout';
 import { DailyBarChart } from './DailyBarChart';
+import { OnboardingChecklist } from './OnboardingChecklist';
 
 const RANGES = [
   { days: 7, label: 'Últimos 7 días' },
@@ -57,6 +58,8 @@ export function DashboardPage() {
           </SelectField>
         }
       />
+
+      <OnboardingChecklist />
 
       {stats.error ? (
         <ErrorState error={stats.error} onRetry={stats.refetch} />
