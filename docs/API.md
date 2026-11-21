@@ -172,3 +172,16 @@ Solo reservas propias; las ajenas responden `404` (RN-009, RN-021).
 | `PATCH` | `/api/pro/bookings/:id/status`       | Profesional (propia, con `canCompleteBookings`) | Solo `COMPLETED` o `NO_SHOW`                                                                                         |
 
 Transiciones válidas: `PENDING → CONFIRMED | CANCELLED`, `CONFIRMED → COMPLETED | CANCELLED | NO_SHOW` (RN-015). Errores: `422 INVALID_TRANSITION`, `422 BOOKING_NOT_STARTED` (RN-026), `422 CANCELLATION_WINDOW_PASSED`, `422 BOOKING_NOT_ACTIVE`, `409 BOOKING_CHANGED` (otra persona modificó la reserva al mismo tiempo), `403 PERMISSION_DENIED`, más los errores de disponibilidad al reprogramar.
+
+### Consultas
+
+| Método | Ruta                                                                                  | Acceso      | Descripción                                                                                                                                      |
+| ------ | ------------------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `GET`  | `/api/bookings?scope=upcoming\|past&page=&pageSize=`                                  | Cliente     | `upcoming`: activas y futuras (ascendente). `past`: historial (pasadas o finalizadas, descendente)                                               |
+| `GET`  | `/api/admin/bookings?from=&to=&status=&professionalId=&serviceId=&q=&page=&pageSize=` | Admin       | Listado paginado. `from`/`to` son fechas locales del negocio; `status` acepta lista separada por comas; `q` busca por nombre o email del cliente |
+| `GET`  | `/api/admin/bookings/calendar?from=&to=&professionalId=`                              | Admin       | Todas las reservas del rango en orden cronológico (vistas semanal y mensual)                                                                     |
+| `GET`  | `/api/admin/bookings/export.csv?…`                                                    | Admin       | Mismos filtros que el listado; CSV UTF-8 con horas locales y montos exactos. Celdas que empiezan con `= + - @` se neutralizan (inyección CSV)    |
+| `GET`  | `/api/admin/bookings/:id`                                                             | Admin       | Detalle                                                                                                                                          |
+| `GET`  | `/api/admin/clients?q=&page=&pageSize=`                                               | Admin       | Clientes con al menos una reserva en el negocio → `ClientSummaryDTO` (`totalBookings`, `completedBookings`, `lastBookingAt`)                     |
+| `GET`  | `/api/pro/me`                                                                         | Profesional | Perfil propio, negocio y horario                                                                                                                 |
+| `GET`  | `/api/pro/bookings?from=&to=&status=&page=&pageSize=`                                 | Profesional | Agenda e historial propios (RN-010)                                                                                                              |

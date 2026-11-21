@@ -4,12 +4,14 @@ import { createAuthRouter } from './modules/auth/auth.routes';
 import { adminBlocksRouter, proBlocksRouter } from './modules/blocks/blocks.routes';
 import {
   adminBookingsRouter,
+  adminClientsRouter,
   clientBookingsRouter,
   proBookingsRouter,
 } from './modules/bookings/bookings.routes';
 import { adminBusinessRouter } from './modules/business/business.routes';
 import { catalogRouter } from './modules/catalog/catalog.routes';
 import { healthRouter } from './modules/health/health.routes';
+import { proProfileRouter } from './modules/pro/pro.routes';
 import { adminProfessionalsRouter } from './modules/professionals/professionals.routes';
 import { adminServicesRouter } from './modules/services/services.routes';
 
@@ -37,11 +39,13 @@ export function createApiRouter({ authRateLimiter }: ApiRouterDeps) {
   admin.use('/professionals', adminProfessionalsRouter);
   admin.use('/blocks', adminBlocksRouter);
   admin.use('/bookings', adminBookingsRouter);
+  admin.use('/clients', adminClientsRouter);
   api.use('/admin', admin);
 
   // Professional panel: only the professional's own agenda (RN-010).
   const pro = Router();
   pro.use(authenticate, requireRole('PROFESSIONAL'));
+  pro.use('/me', proProfileRouter);
   pro.use('/blocks', proBlocksRouter);
   pro.use('/bookings', proBookingsRouter);
   api.use('/pro', pro);

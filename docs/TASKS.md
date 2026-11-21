@@ -13,7 +13,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | Fase                | Tareas  | Completadas |
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
-| 2. Backend y DB     | T05–T15 | 9/11        |
+| 2. Backend y DB     | T05–T15 | 10/11       |
 | 3. Frontend         | T16–T23 | 0/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
@@ -114,9 +114,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T12
   - RN: RN-009, RN-010, RN-012–RN-016, RN-021, RN-026, RN-033
   - Criterios: tests unitarios de política y de integración.
-  - Commit: —
+  - Commit: `63b136b`
 
-- [ ] **T14 — Consultas de reservas, clientes y exportación**
+- [x] **T14 — Consultas de reservas, clientes y exportación**
   - Descripción: listado de cliente (próximas/pasadas), listado admin con filtros y paginación, agenda del profesional, listado de clientes, exportación CSV.
   - Dependencias: T13
   - RN: RN-009, RN-010, RN-011, RN-021, RN-025

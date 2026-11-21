@@ -116,3 +116,8 @@ export const availabilitySummaryQuerySchema = z.object({
   professionalId: idSchema.optional(),
 });
 export type AvailabilitySummaryQuery = z.infer<typeof availabilitySummaryQuerySchema>;
+
+export const clientListQuerySchema = paginationSchema.extend({
+  q: z.string().trim().max(80).optional(),
+});
+export type ClientListQuery = z.infer<typeof clientListQuerySchema>;

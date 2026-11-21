@@ -176,3 +176,13 @@ export interface AvailabilitySummaryResponse {
   serviceId: string;
   days: { date: string; slotCount: number }[];
 }
+
+export interface ProfessionalProfileDTO {
+  id: string;
+  displayName: string;
+  bio: string | null;
+  canManageBlocks: boolean;
+  canCompleteBookings: boolean;
+  business: { id: string; name: string; slug: string; timezone: string };
+  workingHours: WorkingHourDTO[];
+}
