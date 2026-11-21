@@ -3,15 +3,18 @@ import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 import { pinoHttp } from 'pino-http';
-import { env, isTest } from './config/env';
+import { env, isProduction, isTest } from './config/env';
 import { logger } from './lib/logger';
 import { errorHandler, notFoundHandler } from './middleware/error-handler';
+import { createOriginGuard } from './middleware/origin-guard';
 import { createAuthRateLimiter } from './middleware/rate-limit';
 import { createApiRouter } from './routes';
 
 export interface AppOptions {
   /** Overrides AUTH_RATE_LIMIT_MAX (used by tests). */
   authRateLimitMax?: number;
+  /** Enforces the Origin check on state-changing requests (default: production only). */
+  enforceOrigin?: boolean;
 }
 
 export function createApp(options: AppOptions = {}) {
@@ -32,6 +35,7 @@ export function createApp(options: AppOptions = {}) {
       credentials: true,
     }),
   );
+  if (options.enforceOrigin ?? isProduction) app.use(createOriginGuard(env.CORS_ORIGINS));
   app.use(express.json({ limit: '100kb' }));
   app.use(cookieParser());
   if (!isTest) {

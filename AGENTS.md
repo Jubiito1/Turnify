@@ -14,6 +14,7 @@ Fuentes de verdad:
 | [`docs/PLAN.md`](docs/PLAN.md)                 | Alcance, requisitos, fases, riesgos                       |
 | [`docs/TASKS.md`](docs/TASKS.md)               | Estado de cada tarea                                      |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Arquitectura y decisiones técnicas                        |
+| [`docs/SECURITY.md`](docs/SECURITY.md)         | Controles de seguridad y evidencia                        |
 | [`docs/API.md`](docs/API.md)                   | Contrato de la API                                        |
 
 ## 2. Arquitectura y stack

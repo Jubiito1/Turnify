@@ -42,4 +42,26 @@ describe('API skeleton', () => {
     const res = await request(app).get('/api/health').set('Origin', 'https://evil.example');
     expect(res.headers['access-control-allow-origin']).toBeUndefined();
   });
+
+  describe('origin guard (CSRF defense in depth)', () => {
+    const guarded = createApp({ enforceOrigin: true });
+
+    it('rejects state-changing requests from foreign origins', async () => {
+      const res = await request(guarded)
+        .post('/api/auth/logout')
+        .set('Origin', 'https://evil.example');
+      expect(res.status).toBe(403);
+    });
+
+    it('allows configured origins, same-host origins and requests without Origin', async () => {
+      expect(
+        (await request(guarded).post('/api/auth/logout').set('Origin', 'http://localhost:5173'))
+          .status,
+      ).toBe(204);
+      expect((await request(guarded).post('/api/auth/logout')).status).toBe(204);
+      expect(
+        (await request(guarded).get('/api/health').set('Origin', 'https://evil.example')).status,
+      ).toBe(200);
+    });
+  });
 });

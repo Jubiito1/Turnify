@@ -13,6 +13,12 @@ Base URL: `/api` (en producción, el frontend reescribe `/api/*` hacia el backen
 | Paginación | `?page=1&pageSize=20` → `{ items, total, page, pageSize }`                                                      |
 | Errores    | `{ "error": { "code", "message", "details"? } }` — códigos en [`SPEC.md`](./SPEC.md#códigos-de-error-de-la-api) |
 
+## Seguridad
+
+- Todas las rutas protegidas validan sesión y rol en el servidor (RN-024); los recursos de otro usuario o negocio responden `404` (RN-021).
+- En producción, las solicitudes que modifican estado con una cabecera `Origin` ajena reciben `403` (protección CSRF adicional a `SameSite=Lax`).
+- Detalle completo en [`SECURITY.md`](./SECURITY.md).
+
 ## Salud
 
 ### `GET /api/health`
@@ -30,14 +36,15 @@ Público. Indica que el servicio está en línea.
 
 ## Autenticación
 
-| Método  | Ruta                    | Acceso               | Descripción                                                                                   |
-| ------- | ----------------------- | -------------------- | --------------------------------------------------------------------------------------------- |
-| `POST`  | `/api/auth/register`    | Público (rate limit) | Registra un cliente y abre sesión. Body: `{ name, email, password, phone? }` → `201 { user }` |
-| `POST`  | `/api/auth/login`       | Público (rate limit) | Body: `{ email, password }` → `200 { user }` + cookie `turnify_session`                       |
-| `POST`  | `/api/auth/logout`      | Público              | Elimina la cookie de sesión → `204`                                                           |
-| `GET`   | `/api/auth/me`          | Autenticado          | Usuario actual → `{ user: SessionUser }`                                                      |
-| `PATCH` | `/api/auth/me`          | Autenticado          | Actualiza perfil. Body: `{ name, phone? }`                                                    |
-| `POST`  | `/api/auth/me/password` | Autenticado          | Body: `{ currentPassword, newPassword }` → `204`                                              |
+| Método  | Ruta                    | Acceso               | Descripción                                                                                                    |
+| ------- | ----------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `POST`  | `/api/auth/register`    | Público (rate limit) | Registra un cliente y abre sesión. Body: `{ name, email, password, phone? }` → `201 { user }`                  |
+| `POST`  | `/api/auth/login`       | Público (rate limit) | Body: `{ email, password }` → `200 { user }` + cookie `turnify_session`                                        |
+| `POST`  | `/api/auth/logout`      | Público              | Elimina la cookie de sesión → `204`                                                                            |
+| `GET`   | `/api/auth/session`     | Público              | Sesión actual o `null`, siempre `200` (la web lo usa para no generar 401 en visitantes) → `{ user: SessionUser | null }` |
+| `GET`   | `/api/auth/me`          | Autenticado          | Usuario actual → `{ user: SessionUser }`                                                                       |
+| `PATCH` | `/api/auth/me`          | Autenticado          | Actualiza perfil. Body: `{ name, phone? }`                                                                     |
+| `POST`  | `/api/auth/me/password` | Autenticado          | Body: `{ currentPassword, newPassword }` → `204`                                                               |
 
 `SessionUser`: `{ id, name, email, phone, role: "CLIENT" | "PROFESSIONAL" | "ADMIN", businessId, professionalId }`.
 
