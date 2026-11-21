@@ -181,3 +181,15 @@ describe('time helpers', () => {
     expect(isValidTimeZone('Nowhere/City')).toBe(false);
   });
 });
+
+describe('update schemas keep omitted fields untouched', () => {
+  it('does not inject defaults on partial service updates', async () => {
+    const { serviceUpdateSchema } = await import('./schemas/service');
+    expect(serviceUpdateSchema.parse({ name: 'Corte' })).toEqual({ name: 'Corte' });
+  });
+
+  it('does not inject defaults on partial professional updates', async () => {
+    const { professionalUpdateSchema } = await import('./schemas/professional');
+    expect(professionalUpdateSchema.parse({ displayName: 'Ana' })).toEqual({ displayName: 'Ana' });
+  });
+});

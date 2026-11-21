@@ -66,3 +66,14 @@ Todas las rutas `/api/admin/*` requieren sesión con rol `ADMIN` (`401` sin sesi
 | ------ | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `GET`  | `/api/admin/business` | Configuración del negocio → `{ business: BusinessDetail }`                                                                                                                                                       |
 | `PUT`  | `/api/admin/business` | Actualiza datos y políticas. Body: `{ name, description?, category, timezone, address?, phone?, cancellationMinHours (0–168), slotIntervalMinutes (5,10,15,20,30,60), bookingHorizonDays (1–365), autoConfirm }` |
+
+### Servicios (`/api/admin/services`)
+
+| Método   | Ruta                      | Descripción                                                                                                                    |
+| -------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `GET`    | `/api/admin/services`     | Todos los servicios del negocio (activos primero) con `professionalCount`                                                      |
+| `POST`   | `/api/admin/services`     | Body: `{ name, description?, durationMinutes (5–480, múltiplo de 5), priceCents (entero ≥ 0), isActive? }` → `201 { service }` |
+| `PATCH`  | `/api/admin/services/:id` | Actualización parcial (los campos omitidos no cambian). `isActive: false` desactiva (RN-017)                                   |
+| `DELETE` | `/api/admin/services/:id` | Solo si no tiene reservas; si tiene → `409 SERVICE_HAS_BOOKINGS`                                                               |
+
+Un servicio de otro negocio responde `404` (RN-011, RN-021).

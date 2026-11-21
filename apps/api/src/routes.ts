@@ -4,6 +4,7 @@ import { createAuthRouter } from './modules/auth/auth.routes';
 import { adminBusinessRouter } from './modules/business/business.routes';
 import { catalogRouter } from './modules/catalog/catalog.routes';
 import { healthRouter } from './modules/health/health.routes';
+import { adminServicesRouter } from './modules/services/services.routes';
 
 interface ApiRouterDeps {
   authRateLimiter: RequestHandler;
@@ -22,6 +23,7 @@ export function createApiRouter({ authRateLimiter }: ApiRouterDeps) {
   const admin = Router();
   admin.use(authenticate, requireRole('ADMIN'));
   admin.use('/business', adminBusinessRouter);
+  admin.use('/services', adminServicesRouter);
   api.use('/admin', admin);
 
   return api;

@@ -3,13 +3,13 @@ import { MINUTES_PER_DAY, intervalsOverlap } from '../time';
 import { emailSchema, passwordSchema } from './auth';
 import { idSchema, optionalText } from './common';
 
-export const professionalCreateSchema = z.object({
+const professionalFields = z.object({
   displayName: z.string().trim().min(2, 'Ingresa al menos 2 caracteres').max(80),
   bio: optionalText(400),
-  isActive: z.boolean().default(true),
+  isActive: z.boolean(),
   /** RN-033 */
-  canManageBlocks: z.boolean().default(false),
-  canCompleteBookings: z.boolean().default(true),
+  canManageBlocks: z.boolean(),
+  canCompleteBookings: z.boolean(),
   /** Optional login account for the professional panel. */
   account: z
     .object({
@@ -18,9 +18,15 @@ export const professionalCreateSchema = z.object({
     })
     .optional(),
 });
+export const professionalCreateSchema = professionalFields.extend({
+  isActive: z.boolean().default(true),
+  canManageBlocks: z.boolean().default(false),
+  canCompleteBookings: z.boolean().default(true),
+});
 export type ProfessionalCreateInput = z.input<typeof professionalCreateSchema>;
 
-export const professionalUpdateSchema = professionalCreateSchema.omit({ account: true }).partial();
+// Default-free partial so omitted fields are left untouched on PATCH.
+export const professionalUpdateSchema = professionalFields.omit({ account: true }).partial();
 export type ProfessionalUpdateInput = z.input<typeof professionalUpdateSchema>;
 
 export const assignServicesSchema = z.object({

@@ -4,11 +4,11 @@ import type {
   BusinessSummary,
   Paginated,
   ProfessionalPublicDTO,
-  ServiceDTO,
 } from '@turnify/shared';
 import { notFound } from '../../lib/errors';
 import { prisma } from '../../lib/prisma';
 import { toBusinessDetail } from '../business/business.mapper';
+import { toServiceDTO } from '../services/service.mapper';
 
 export async function listBusinesses(
   query: BusinessListQuery,
@@ -83,14 +83,7 @@ export async function getBusinessPage(slug: string) {
 
   return {
     business: toBusinessDetail(business),
-    services: services.map((s): ServiceDTO => ({
-      id: s.id,
-      name: s.name,
-      description: s.description,
-      durationMinutes: s.durationMinutes,
-      priceCents: s.priceCents,
-      isActive: s.isActive,
-    })),
+    services: services.map(toServiceDTO),
     professionals: professionals.map((p): ProfessionalPublicDTO => ({
       id: p.id,
       displayName: p.displayName,

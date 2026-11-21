@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { optionalText } from './common';
 
-export const serviceCreateSchema = z.object({
+const serviceFields = z.object({
   name: z.string().trim().min(2, 'Ingresa al menos 2 caracteres').max(80, 'Máximo 80 caracteres'),
   description: optionalText(500),
   /** RN-007: appointment duration is defined by the service. */
@@ -17,9 +17,13 @@ export const serviceCreateSchema = z.object({
     .int('El precio debe expresarse en centavos enteros')
     .min(0, 'El precio no puede ser negativo')
     .max(100_000_000, 'Precio demasiado alto'),
-  isActive: z.boolean().default(true),
+  isActive: z.boolean(),
 });
+
+export const serviceCreateSchema = serviceFields.extend({ isActive: z.boolean().default(true) });
 export type ServiceCreateInput = z.input<typeof serviceCreateSchema>;
 
-export const serviceUpdateSchema = serviceCreateSchema.partial();
+// Built from the default-free fields: in Zod 4 `.partial()` keeps defaults, which would silently
+// reset omitted fields (e.g. reactivate a deactivated service) on PATCH.
+export const serviceUpdateSchema = serviceFields.partial();
 export type ServiceUpdateInput = z.input<typeof serviceUpdateSchema>;
