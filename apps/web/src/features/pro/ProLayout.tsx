@@ -1,11 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import type { ProfessionalProfileDTO } from '@turnify/shared';
-import { CalendarDays } from 'lucide-react';
+import { CalendarDays, CalendarOff, History } from 'lucide-react';
 import { api } from '../../lib/api';
 import { PanelLayout, type PanelNavItem } from '../../layouts/PanelLayout';
 
 export const PRO_NAV: PanelNavItem[] = [
   { to: '/pro', label: 'Mi agenda', icon: CalendarDays, end: true },
+  { to: '/pro/historial', label: 'Historial', icon: History },
+  { to: '/pro/bloqueos', label: 'Bloqueos', icon: CalendarOff },
 ];
 
 export const proProfileQuery = {

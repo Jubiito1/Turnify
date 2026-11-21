@@ -1,7 +1,6 @@
 import { screen } from '@testing-library/react';
 import { renderApp } from './test/render';
-import { demoUsers, server, signedInAs } from './test/server';
-import { http, HttpResponse } from 'msw';
+import { demoUsers, proPanelHandlers, server, signedInAs } from './test/server';
 
 describe('app routing', () => {
   it('renders the landing page at /', async () => {
@@ -30,29 +29,9 @@ describe('app routing', () => {
   });
 
   it('sends users with another role to their own home', async () => {
-    server.use(
-      signedInAs(demoUsers.pro),
-      http.get('*/api/pro/me', () =>
-        HttpResponse.json({
-          professional: {
-            id: demoUsers.pro.professionalId,
-            displayName: 'Lucía Fernández',
-            bio: null,
-            canManageBlocks: true,
-            canCompleteBookings: true,
-            business: {
-              id: 'b',
-              name: 'Estudio Lumen',
-              slug: 'estudio-lumen',
-              timezone: 'America/Argentina/Buenos_Aires',
-            },
-            workingHours: [],
-          },
-        }),
-      ),
-    );
+    server.use(signedInAs(demoUsers.pro), ...proPanelHandlers());
     const { router } = renderApp('/admin');
-    expect(await screen.findByRole('heading', { name: /hola, lucía/i })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Mi agenda' })).toBeInTheDocument();
     expect(router.state.location.pathname).toBe('/pro');
   });
 });

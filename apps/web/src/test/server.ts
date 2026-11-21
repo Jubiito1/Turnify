@@ -98,3 +98,33 @@ export function adminPanelHandlers() {
 export function signedInAs(user: SessionUser) {
   return http.get('*/api/auth/me', () => HttpResponse.json({ user }));
 }
+
+/** Minimal professional panel API: profile plus empty agenda/blocks. */
+export function proPanelHandlers(
+  permissions: { canManageBlocks?: boolean; canCompleteBookings?: boolean } = {},
+) {
+  return [
+    http.get('*/api/pro/me', () =>
+      HttpResponse.json({
+        professional: {
+          id: demoUsers.pro.professionalId,
+          displayName: 'Lucía Fernández',
+          bio: null,
+          canManageBlocks: permissions.canManageBlocks ?? true,
+          canCompleteBookings: permissions.canCompleteBookings ?? true,
+          business: {
+            id: 'b',
+            name: 'Estudio Lumen',
+            slug: 'estudio-lumen',
+            timezone: 'America/Argentina/Buenos_Aires',
+          },
+          workingHours: [],
+        },
+      }),
+    ),
+    http.get('*/api/pro/bookings', () =>
+      HttpResponse.json({ items: [], total: 0, page: 1, pageSize: 100 }),
+    ),
+    http.get('*/api/pro/blocks', () => HttpResponse.json({ items: [] })),
+  ];
+}

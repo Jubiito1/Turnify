@@ -14,7 +14,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
 | 2. Backend y DB     | T05–T15 | 11/11       |
-| 3. Frontend         | T16–T23 | 6/8         |
+| 3. Frontend         | T16–T23 | 7/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
 | 6. Auditoría        | T28     | 0/1         |
@@ -172,9 +172,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T20
   - RN: RN-011, RN-013, RN-015, RN-029
   - Criterios: tests de componentes del calendario.
-  - Commit: —
+  - Commit: `b9f27e5`
 
-- [ ] **T22 — Panel del profesional**
+- [x] **T22 — Panel del profesional**
   - Descripción: agenda, historial, completar turnos y bloqueos según permisos.
   - Dependencias: T21
   - RN: RN-010, RN-026, RN-033

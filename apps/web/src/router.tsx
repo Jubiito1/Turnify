@@ -16,7 +16,7 @@ import { RequireRole } from './features/auth/RequireRole';
 import { BookingPage } from './features/booking/BookingPage';
 import { BusinessPage } from './features/catalog/BusinessPage';
 import { ExplorePage } from './features/catalog/ExplorePage';
-import { ProHomePage } from './features/pro/ProHomePage';
+import { ProAgendaPage, ProBlocksPage, ProHistoryPage } from './features/pro/ProPages';
 import { ProLayout } from './features/pro/ProLayout';
 import { PublicLayout } from './layouts/PublicLayout';
 import { HomePage } from './pages/HomePage';
@@ -77,7 +77,11 @@ export const routes: RouteObject[] = [
         <ProLayout />
       </RequireRole>
     ),
-    children: [{ index: true, element: <ProHomePage /> }],
+    children: [
+      { index: true, element: <ProAgendaPage /> },
+      { path: 'historial', element: <ProHistoryPage /> },
+      { path: 'bloqueos', element: <ProBlocksPage /> },
+    ],
   },
   { path: '*', element: <NotFoundPage /> },
 ];
