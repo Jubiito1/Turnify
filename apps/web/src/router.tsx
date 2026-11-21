@@ -5,6 +5,9 @@ import { LoginPage } from './features/auth/LoginPage';
 import { RegisterBusinessPage } from './features/auth/RegisterBusinessPage';
 import { RegisterPage } from './features/auth/RegisterPage';
 import { RequireRole } from './features/auth/RequireRole';
+import { BookingPage } from './features/booking/BookingPage';
+import { BusinessPage } from './features/catalog/BusinessPage';
+import { ExplorePage } from './features/catalog/ExplorePage';
 import { ProHomePage } from './features/pro/ProHomePage';
 import { ProLayout } from './features/pro/ProLayout';
 import { PublicLayout } from './layouts/PublicLayout';
@@ -14,7 +17,12 @@ import { NotFoundPage } from './pages/NotFoundPage';
 export const routes: RouteObject[] = [
   {
     element: <PublicLayout />,
-    children: [{ index: true, element: <HomePage /> }],
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: 'explorar', element: <ExplorePage /> },
+      { path: 'negocios/:slug', element: <BusinessPage /> },
+      { path: 'negocios/:slug/reservar', element: <BookingPage /> },
+    ],
   },
   { path: '/ingresar', element: <LoginPage /> },
   { path: '/registro', element: <RegisterPage /> },

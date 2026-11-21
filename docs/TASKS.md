@@ -14,7 +14,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
 | 2. Backend y DB     | T05–T15 | 11/11       |
-| 3. Frontend         | T16–T23 | 1/8         |
+| 3. Frontend         | T16–T23 | 2/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
 | 6. Auditoría        | T28     | 0/1         |
@@ -137,9 +137,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T04, T07
   - RN: RN-024, RN-031
   - Criterios: tests de componentes de formularios y validaciones.
-  - Commit: —
+  - Commit: `3b88925`
 
-- [ ] **T17 — Catálogo público y flujo de reserva**
+- [x] **T17 — Catálogo público y flujo de reserva**
   - Descripción: landing, exploración con búsqueda/filtros, página del negocio y asistente de reserva (servicio → profesional → fecha/horario → confirmación).
   - Dependencias: T16, T12
   - RN: RN-001, RN-003, RN-008

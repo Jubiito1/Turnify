@@ -11,6 +11,10 @@ export const server = setupServer(
       { status: 401 },
     ),
   ),
+  // Default: empty public catalog (landing page).
+  http.get('*/api/businesses', () =>
+    HttpResponse.json({ items: [], total: 0, page: 1, pageSize: 6 }),
+  ),
 );
 
 export function apiError(status: number, code: string, message: string, details?: unknown) {

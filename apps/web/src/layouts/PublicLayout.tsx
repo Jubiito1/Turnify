@@ -5,7 +5,7 @@ import { useAuth } from '../features/auth/AuthProvider';
 import { ACCOUNT_LINKS } from './nav';
 import { UserMenu } from './UserMenu';
 
-export const PUBLIC_NAV: { to: string; label: string }[] = [];
+export const PUBLIC_NAV: { to: string; label: string }[] = [{ to: '/explorar', label: 'Explorar' }];
 
 export function PublicHeader() {
   const { user, isLoading } = useAuth();
