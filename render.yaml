@@ -1,0 +1,33 @@
+# Render Blueprint for the Turnify API (https://render.com/docs/blueprint-spec).
+# PostgreSQL is hosted on Neon; DATABASE_URL and CORS_ORIGINS are set in the Render dashboard.
+services:
+  - type: web
+    name: turnify-api
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    autoDeploy: true
+    buildCommand: npm ci --include=dev && npm run build -w @turnify/api
+    # Migrations are applied on every start (idempotent `prisma migrate deploy`), then the server boots.
+    startCommand: npm run db:migrate -w @turnify/api && npm run start -w @turnify/api
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: '22'
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: 'true'
+      - key: SESSION_TTL_DAYS
+        value: '7'
+      - key: AUTH_RATE_LIMIT_MAX
+        value: '20'
+      - key: LOG_LEVEL
+        value: info
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false

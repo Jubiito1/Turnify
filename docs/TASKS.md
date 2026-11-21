@@ -16,7 +16,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | 2. Backend y DB     | T05–T15 | 11/11       |
 | 3. Frontend         | T16–T23 | 8/8         |
 | 4. Integración y QA | T24–T25 | 2/2         |
-| 5. Producción       | T26–T27 | 0/2         |
+| 5. Producción       | T26–T27 | 1/2         |
 | 6. Auditoría        | T28     | 0/1         |
 
 ---
@@ -202,11 +202,11 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T24
   - RN: RN-021, RN-024, RN-025
   - Criterios: checklist de seguridad cumplido; API documentada.
-  - Commit: —
+  - Commit: `c1e37b8`
 
 ## Fase 5 — Producción
 
-- [ ] **T26 — Configuración de despliegue**
+- [x] **T26 — Configuración de despliegue**
   - Descripción: `render.yaml`, `vercel.json`, scripts de build/start de producción, `docs/DEPLOYMENT.md`.
   - Dependencias: T25
   - RN: —
