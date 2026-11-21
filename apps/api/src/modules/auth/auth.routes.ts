@@ -2,11 +2,13 @@ import { Router, type RequestHandler } from 'express';
 import {
   changePasswordSchema,
   loginSchema,
+  registerBusinessSchema,
   registerSchema,
   updateProfileSchema,
 } from '@turnify/shared';
 import { parse } from '../../lib/validate';
 import { authenticate, getAuth } from '../../middleware/auth';
+import * as businessService from '../business/business.service';
 import * as authService from './auth.service';
 import { clearSessionCookie, setSessionCookie } from './session';
 
@@ -18,6 +20,14 @@ export function createAuthRouter(authRateLimiter: RequestHandler) {
     const user = await authService.registerClient(input);
     setSessionCookie(res, { sub: user.id, role: user.role });
     res.status(201).json({ user });
+  });
+
+  /** Business onboarding: creates an ADMIN account and its business. */
+  router.post('/register-business', authRateLimiter, async (req, res) => {
+    const input = parse(registerBusinessSchema, req.body);
+    const result = await businessService.registerBusiness(input);
+    setSessionCookie(res, { sub: result.user.id, role: result.user.role });
+    res.status(201).json(result);
   });
 
   router.post('/login', authRateLimiter, async (req, res) => {

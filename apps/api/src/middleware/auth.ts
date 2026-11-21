@@ -86,3 +86,10 @@ export function getAuth(req: Request): AuthContext {
   if (!req.auth) throw unauthenticated();
   return req.auth;
 }
+
+/** Business of the authenticated admin (RN-011). Never taken from request parameters. */
+export function getAdminBusinessId(req: Request): string {
+  const auth = getAuth(req);
+  if (auth.role !== 'ADMIN' || !auth.businessId) throw forbidden();
+  return auth.businessId;
+}

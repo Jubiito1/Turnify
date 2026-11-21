@@ -13,7 +13,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | Fase                | Tareas  | Completadas |
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
-| 2. Backend y DB     | T05–T15 | 2/11        |
+| 2. Backend y DB     | T05–T15 | 3/11        |
 | 3. Frontend         | T16–T23 | 0/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
@@ -65,9 +65,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T05
   - RN: RN-024, RN-031, RN-032
   - Criterios: tests de integración de auth (éxito, duplicado, credenciales inválidas, 401/403, 429).
-  - Commit: —
+  - Commit: `eaee3d6`
 
-- [ ] **T07 — Negocios: onboarding, configuración y catálogo público**
+- [x] **T07 — Negocios: onboarding, configuración y catálogo público**
   - Descripción: registro de negocio (admin + negocio), configuración (datos, zona horaria, política de cancelación), listado público con búsqueda y filtro, detalle por slug.
   - Dependencias: T06
   - RN: RN-011, RN-013, RN-025

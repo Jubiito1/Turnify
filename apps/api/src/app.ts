@@ -1,14 +1,13 @@
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import express, { Router } from 'express';
+import express from 'express';
 import helmet from 'helmet';
 import { pinoHttp } from 'pino-http';
 import { env, isTest } from './config/env';
 import { logger } from './lib/logger';
 import { errorHandler, notFoundHandler } from './middleware/error-handler';
 import { createAuthRateLimiter } from './middleware/rate-limit';
-import { createAuthRouter } from './modules/auth/auth.routes';
-import { healthRouter } from './modules/health/health.routes';
+import { createApiRouter } from './routes';
 
 export interface AppOptions {
   /** Overrides AUTH_RATE_LIMIT_MAX (used by tests). */
@@ -47,14 +46,10 @@ export function createApp(options: AppOptions = {}) {
     );
   }
 
-  const api = Router();
   const authRateLimiter = createAuthRateLimiter(
     options.authRateLimitMax ?? env.AUTH_RATE_LIMIT_MAX,
   );
-  api.use('/health', healthRouter);
-  api.use('/auth', createAuthRouter(authRateLimiter));
-
-  app.use('/api', api);
+  app.use('/api', createApiRouter({ authRateLimiter }));
   app.use(notFoundHandler);
   app.use(errorHandler);
 

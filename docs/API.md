@@ -42,3 +42,27 @@ Público. Indica que el servicio está en línea.
 `SessionUser`: `{ id, name, email, phone, role: "CLIENT" | "PROFESSIONAL" | "ADMIN", businessId, professionalId }`.
 
 Errores: `409 EMAIL_TAKEN`, `401 INVALID_CREDENTIALS` (mismo mensaje para email inexistente y contraseña incorrecta), `400 INVALID_CURRENT_PASSWORD`, `429 TOO_MANY_REQUESTS` (más de `AUTH_RATE_LIMIT_MAX` intentos por IP en 15 minutos).
+
+## Onboarding de negocio
+
+### `POST /api/auth/register-business`
+
+Público (rate limit). Crea un administrador y su negocio en una transacción y abre sesión.
+
+Body: `{ name, email, password, businessName, category, timezone, address?, phone? }` → `201 { user, business }`. El `slug` se genera a partir del nombre (sin acentos, único).
+
+## Catálogo público
+
+| Método | Ruta                                           | Descripción                                                                                                                |
+| ------ | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `GET`  | `/api/businesses?q=&category=&page=&pageSize=` | Negocios activos. `q` busca en nombre, descripción y dirección (sin distinguir mayúsculas). → `Paginated<BusinessSummary>` |
+| `GET`  | `/api/businesses/:slug`                        | Página del negocio → `{ business, services, professionals }` (solo servicios y profesionales activos)                      |
+
+## Administración del negocio
+
+Todas las rutas `/api/admin/*` requieren sesión con rol `ADMIN` (`401` sin sesión, `403` con otro rol). El negocio se deriva de la sesión, nunca de un parámetro.
+
+| Método | Ruta                  | Descripción                                                                                                                                                                                                      |
+| ------ | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GET`  | `/api/admin/business` | Configuración del negocio → `{ business: BusinessDetail }`                                                                                                                                                       |
+| `PUT`  | `/api/admin/business` | Actualiza datos y políticas. Body: `{ name, description?, category, timezone, address?, phone?, cancellationMinHours (0–168), slotIntervalMinutes (5,10,15,20,30,60), bookingHorizonDays (1–365), autoConfirm }` |
