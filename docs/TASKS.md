@@ -10,14 +10,14 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 
 ## Progreso
 
-| Fase | Tareas | Completadas |
-|------|--------|-------------|
-| 1. Inicialización | T01–T04 | 1/4 |
-| 2. Backend y DB | T05–T15 | 0/11 |
-| 3. Frontend | T16–T23 | 0/8 |
-| 4. Integración y QA | T24–T25 | 0/2 |
-| 5. Producción | T26–T27 | 0/2 |
-| 6. Auditoría | T28 | 0/1 |
+| Fase                | Tareas  | Completadas |
+| ------------------- | ------- | ----------- |
+| 1. Inicialización   | T01–T04 | 1/4         |
+| 2. Backend y DB     | T05–T15 | 0/11        |
+| 3. Frontend         | T16–T23 | 0/8         |
+| 4. Integración y QA | T24–T25 | 0/2         |
+| 5. Producción       | T26–T27 | 0/2         |
+| 6. Auditoría        | T28     | 0/1         |
 
 ---
 
@@ -28,9 +28,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: —
   - RN: todas (definición).
   - Criterios: reglas numeradas con criterios de aceptación; plan con fases, riesgos y estrategias; tareas con dependencias.
-  - Commit: —
+  - Commit: `bbb9cec`
 
-- [ ] **T02 — Workspace monorepo y paquete compartido**
+- [x] **T02 — Workspace monorepo y paquete compartido**
   - Descripción: npm workspaces, TypeScript estricto, ESLint, Prettier, `.gitignore`, `.env.example`, paquete `@turnify/shared` con enums, transiciones de estado, dinero y esquemas Zod base.
   - Dependencias: T01
   - RN: RN-015, RN-018, RN-030, RN-031

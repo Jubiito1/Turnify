@@ -6,64 +6,64 @@ Este documento define las reglas de negocio de Turnify. Cada regla tiene un iden
 
 ## Glosario
 
-| Término | Significado |
-|---------|-------------|
-| Negocio | Comercio que ofrece servicios con turno (peluquería, consultorio, estudio, etc.). Es la unidad de aislamiento de datos (tenant). |
-| Administrador | Usuario dueño/gestor de **un** negocio. |
-| Profesional | Persona que presta servicios dentro de un negocio. Puede tener o no cuenta de acceso. |
-| Cliente | Usuario que reserva turnos en cualquier negocio. |
-| Reserva activa | Reserva en estado `PENDING` o `CONFIRMED`. Solo las reservas activas ocupan disponibilidad. |
-| Bloqueo | Intervalo en el que un profesional no atiende (vacaciones, trámite, feriado). |
-| Zona horaria del negocio | Zona IANA (por ejemplo `America/Argentina/Buenos_Aires`) usada para interpretar horarios laborales y mostrar fechas. |
+| Término                  | Significado                                                                                                                      |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| Negocio                  | Comercio que ofrece servicios con turno (peluquería, consultorio, estudio, etc.). Es la unidad de aislamiento de datos (tenant). |
+| Administrador            | Usuario dueño/gestor de **un** negocio.                                                                                          |
+| Profesional              | Persona que presta servicios dentro de un negocio. Puede tener o no cuenta de acceso.                                            |
+| Cliente                  | Usuario que reserva turnos en cualquier negocio.                                                                                 |
+| Reserva activa           | Reserva en estado `PENDING` o `CONFIRMED`. Solo las reservas activas ocupan disponibilidad.                                      |
+| Bloqueo                  | Intervalo en el que un profesional no atiende (vacaciones, trámite, feriado).                                                    |
+| Zona horaria del negocio | Zona IANA (por ejemplo `America/Argentina/Buenos_Aires`) usada para interpretar horarios laborales y mostrar fechas.             |
 
 ## Estados de una reserva
 
-| Estado | Significado | Transiciones válidas |
-|--------|-------------|----------------------|
-| `PENDING` | Solicitada, pendiente de confirmación del negocio | `CONFIRMED`, `CANCELLED` |
-| `CONFIRMED` | Confirmada | `COMPLETED`, `CANCELLED`, `NO_SHOW` |
-| `COMPLETED` | Servicio prestado | — (estado final) |
-| `CANCELLED` | Cancelada por cliente o negocio | — (estado final) |
-| `NO_SHOW` | El cliente no asistió | — (estado final) |
+| Estado      | Significado                                       | Transiciones válidas                |
+| ----------- | ------------------------------------------------- | ----------------------------------- |
+| `PENDING`   | Solicitada, pendiente de confirmación del negocio | `CONFIRMED`, `CANCELLED`            |
+| `CONFIRMED` | Confirmada                                        | `COMPLETED`, `CANCELLED`, `NO_SHOW` |
+| `COMPLETED` | Servicio prestado                                 | — (estado final)                    |
+| `CANCELLED` | Cancelada por cliente o negocio                   | — (estado final)                    |
+| `NO_SHOW`   | El cliente no asistió                             | — (estado final)                    |
 
 ## Resumen de reglas
 
-| ID | Regla |
-|----|-------|
-| RN-001 | No se puede reservar un turno en el pasado. |
-| RN-002 | Una reserva debe corresponder a un servicio activo. |
-| RN-003 | El profesional debe estar habilitado para prestar el servicio. |
-| RN-004 | El turno debe estar dentro del horario laboral del profesional. |
-| RN-005 | No se pueden reservar horarios bloqueados. |
-| RN-006 | Dos reservas activas del mismo profesional no pueden superponerse. |
-| RN-007 | La duración del turno depende del servicio seleccionado. |
-| RN-008 | La disponibilidad considera duración, reservas, horarios y bloqueos. |
-| RN-009 | Un cliente solo consulta y gestiona sus propias reservas. |
-| RN-010 | Un profesional solo consulta reservas de su ámbito autorizado. |
-| RN-011 | Un administrador solo gestiona recursos de su negocio. |
-| RN-012 | Las reservas canceladas no bloquean disponibilidad. |
-| RN-013 | La cancelación del cliente respeta la anticipación mínima configurada. |
-| RN-014 | No se puede completar una reserva cancelada. |
-| RN-015 | Los cambios de estado siguen transiciones válidas. |
-| RN-016 | La reprogramación vuelve a validar disponibilidad. |
-| RN-017 | Un servicio desactivado no admite nuevas reservas. |
-| RN-018 | Los precios se almacenan en unidades monetarias enteras (centavos). |
-| RN-019 | Las fechas se persisten en UTC y se interpretan en la zona horaria del negocio. |
-| RN-020 | La creación de reservas es atómica y segura ante concurrencia. |
-| RN-021 | Los clientes no pueden modificar reservas ajenas manipulando identificadores. |
-| RN-022 | Las estadísticas se calculan a partir de datos persistidos. |
-| RN-023 | Desactivar un profesional no elimina su historial. |
-| RN-024 | Las operaciones administrativas se autorizan en el backend. |
-| RN-025 | Los datos de un negocio están aislados de los demás negocios. |
-| RN-026 | Solo se puede completar o marcar ausente una reserva cuyo horario ya comenzó. |
-| RN-027 | Las reservas solo se aceptan dentro del horizonte de reserva del negocio. |
-| RN-028 | Un cliente no puede tener dos reservas activas superpuestas. |
-| RN-029 | Un bloqueo no puede superponerse con reservas activas del profesional. |
-| RN-030 | Los horarios laborales de un profesional son válidos y no se superponen. |
-| RN-031 | Las credenciales cumplen requisitos mínimos y el email es único. |
-| RN-032 | Los intentos de autenticación están limitados para prevenir fuerza bruta. |
+| ID     | Regla                                                                              |
+| ------ | ---------------------------------------------------------------------------------- |
+| RN-001 | No se puede reservar un turno en el pasado.                                        |
+| RN-002 | Una reserva debe corresponder a un servicio activo.                                |
+| RN-003 | El profesional debe estar habilitado para prestar el servicio.                     |
+| RN-004 | El turno debe estar dentro del horario laboral del profesional.                    |
+| RN-005 | No se pueden reservar horarios bloqueados.                                         |
+| RN-006 | Dos reservas activas del mismo profesional no pueden superponerse.                 |
+| RN-007 | La duración del turno depende del servicio seleccionado.                           |
+| RN-008 | La disponibilidad considera duración, reservas, horarios y bloqueos.               |
+| RN-009 | Un cliente solo consulta y gestiona sus propias reservas.                          |
+| RN-010 | Un profesional solo consulta reservas de su ámbito autorizado.                     |
+| RN-011 | Un administrador solo gestiona recursos de su negocio.                             |
+| RN-012 | Las reservas canceladas no bloquean disponibilidad.                                |
+| RN-013 | La cancelación del cliente respeta la anticipación mínima configurada.             |
+| RN-014 | No se puede completar una reserva cancelada.                                       |
+| RN-015 | Los cambios de estado siguen transiciones válidas.                                 |
+| RN-016 | La reprogramación vuelve a validar disponibilidad.                                 |
+| RN-017 | Un servicio desactivado no admite nuevas reservas.                                 |
+| RN-018 | Los precios se almacenan en unidades monetarias enteras (centavos).                |
+| RN-019 | Las fechas se persisten en UTC y se interpretan en la zona horaria del negocio.    |
+| RN-020 | La creación de reservas es atómica y segura ante concurrencia.                     |
+| RN-021 | Los clientes no pueden modificar reservas ajenas manipulando identificadores.      |
+| RN-022 | Las estadísticas se calculan a partir de datos persistidos.                        |
+| RN-023 | Desactivar un profesional no elimina su historial.                                 |
+| RN-024 | Las operaciones administrativas se autorizan en el backend.                        |
+| RN-025 | Los datos de un negocio están aislados de los demás negocios.                      |
+| RN-026 | Solo se puede completar o marcar ausente una reserva cuyo horario ya comenzó.      |
+| RN-027 | Las reservas solo se aceptan dentro del horizonte de reserva del negocio.          |
+| RN-028 | Un cliente no puede tener dos reservas activas superpuestas.                       |
+| RN-029 | Un bloqueo no puede superponerse con reservas activas del profesional.             |
+| RN-030 | Los horarios laborales de un profesional son válidos y no se superponen.           |
+| RN-031 | Las credenciales cumplen requisitos mínimos y el email es único.                   |
+| RN-032 | Los intentos de autenticación están limitados para prevenir fuerza bruta.          |
 | RN-033 | Los profesionales solo gestionan bloqueos o completan turnos si están autorizados. |
-| RN-034 | Las reservas se alinean al intervalo de turnos del negocio. |
+| RN-034 | Las reservas se alinean al intervalo de turnos del negocio.                        |
 
 ---
 
@@ -332,13 +332,13 @@ Este documento define las reglas de negocio de Turnify. Cada regla tiene un iden
 
 Todas las respuestas de error tienen la forma `{ "error": { "code": string, "message": string, "details"?: unknown } }`.
 
-| HTTP | Código | Uso |
-|------|--------|-----|
-| 400 | `VALIDATION_ERROR` | Entrada inválida (Zod). |
-| 401 | `UNAUTHENTICATED` / `INVALID_CREDENTIALS` | Sin sesión o credenciales incorrectas. |
-| 403 | `FORBIDDEN` / `PERMISSION_DENIED` | Rol o permiso insuficiente. |
-| 404 | `NOT_FOUND` | Recurso inexistente o fuera del ámbito del usuario. |
-| 409 | `SLOT_TAKEN`, `SLOT_UNAVAILABLE`, `CLIENT_OVERLAP`, `EMAIL_TAKEN`, `SLUG_TAKEN`, `BLOCK_CONFLICTS_WITH_BOOKINGS` | Conflictos de estado. |
-| 422 | `BOOKING_IN_PAST`, `SERVICE_INACTIVE`, `PROFESSIONAL_NOT_ELIGIBLE`, `CANCELLATION_WINDOW_PASSED`, `INVALID_TRANSITION`, `BOOKING_NOT_STARTED`, `BEYOND_BOOKING_HORIZON` | Violación de reglas de negocio. |
-| 429 | `TOO_MANY_REQUESTS` | Límite de intentos. |
-| 500 | `INTERNAL_ERROR` | Error inesperado (sin detalles internos). |
+| HTTP | Código                                                                                                                                                                  | Uso                                                 |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| 400  | `VALIDATION_ERROR`                                                                                                                                                      | Entrada inválida (Zod).                             |
+| 401  | `UNAUTHENTICATED` / `INVALID_CREDENTIALS`                                                                                                                               | Sin sesión o credenciales incorrectas.              |
+| 403  | `FORBIDDEN` / `PERMISSION_DENIED`                                                                                                                                       | Rol o permiso insuficiente.                         |
+| 404  | `NOT_FOUND`                                                                                                                                                             | Recurso inexistente o fuera del ámbito del usuario. |
+| 409  | `SLOT_TAKEN`, `SLOT_UNAVAILABLE`, `CLIENT_OVERLAP`, `EMAIL_TAKEN`, `SLUG_TAKEN`, `BLOCK_CONFLICTS_WITH_BOOKINGS`                                                        | Conflictos de estado.                               |
+| 422  | `BOOKING_IN_PAST`, `SERVICE_INACTIVE`, `PROFESSIONAL_NOT_ELIGIBLE`, `CANCELLATION_WINDOW_PASSED`, `INVALID_TRANSITION`, `BOOKING_NOT_STARTED`, `BEYOND_BOOKING_HORIZON` | Violación de reglas de negocio.                     |
+| 429  | `TOO_MANY_REQUESTS`                                                                                                                                                     | Límite de intentos.                                 |
+| 500  | `INTERNAL_ERROR`                                                                                                                                                        | Error inesperado (sin detalles internos).           |

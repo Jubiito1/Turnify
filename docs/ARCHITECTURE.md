@@ -51,31 +51,31 @@ turnify/
 
 ### Capas
 
-| Capa | Responsabilidad | Ejemplo |
-|------|-----------------|---------|
-| Rutas | Declarar endpoint, middleware de auth/rol y validar entrada con Zod | `services.routes.ts` |
-| Servicio | Reglas de negocio y orquestación de transacciones | `booking.service.ts` |
-| Política / dominio | Funciones puras testeables sin base de datos | `booking.policy.ts`, `availability.engine.ts` |
-| Datos | Prisma Client; consultas siempre filtradas por propietario | dentro de cada servicio |
+| Capa               | Responsabilidad                                                     | Ejemplo                                       |
+| ------------------ | ------------------------------------------------------------------- | --------------------------------------------- |
+| Rutas              | Declarar endpoint, middleware de auth/rol y validar entrada con Zod | `services.routes.ts`                          |
+| Servicio           | Reglas de negocio y orquestación de transacciones                   | `booking.service.ts`                          |
+| Política / dominio | Funciones puras testeables sin base de datos                        | `booking.policy.ts`, `availability.engine.ts` |
+| Datos              | Prisma Client; consultas siempre filtradas por propietario          | dentro de cada servicio                       |
 
 Se evitó una capa de repositorios separada: Prisma ya cumple ese rol y agregar otra capa sería complejidad artificial para este tamaño de problema. Las consultas viven en los servicios y siempre incluyen el filtro de alcance (`businessId`, `clientId` o `professionalId`).
 
 ### Módulos
 
-| Módulo | Endpoints | Rol |
-|--------|-----------|-----|
-| `health` | `GET /api/health` | Público |
-| `auth` | registro, login, logout, me, perfil | Público / autenticado |
-| `catalog` | negocios, servicios, profesionales, disponibilidad | Público |
-| `business` | configuración del negocio | Admin |
-| `services` | ABM de servicios | Admin |
-| `professionals` | ABM, servicios asignados, horarios, permisos | Admin |
-| `blocks` | bloqueos | Admin / Profesional autorizado |
-| `bookings` | reservas de cliente y admin, estados, reprogramación, CSV | Cliente / Admin |
-| `pro` | agenda e historial del profesional | Profesional |
-| `clients` | clientes del negocio | Admin |
-| `stats` | métricas | Admin |
-| `notifications` | notificaciones internas | Autenticado |
+| Módulo          | Endpoints                                                 | Rol                            |
+| --------------- | --------------------------------------------------------- | ------------------------------ |
+| `health`        | `GET /api/health`                                         | Público                        |
+| `auth`          | registro, login, logout, me, perfil                       | Público / autenticado          |
+| `catalog`       | negocios, servicios, profesionales, disponibilidad        | Público                        |
+| `business`      | configuración del negocio                                 | Admin                          |
+| `services`      | ABM de servicios                                          | Admin                          |
+| `professionals` | ABM, servicios asignados, horarios, permisos              | Admin                          |
+| `blocks`        | bloqueos                                                  | Admin / Profesional autorizado |
+| `bookings`      | reservas de cliente y admin, estados, reprogramación, CSV | Cliente / Admin                |
+| `pro`           | agenda e historial del profesional                        | Profesional                    |
+| `clients`       | clientes del negocio                                      | Admin                          |
+| `stats`         | métricas                                                  | Admin                          |
+| `notifications` | notificaciones internas                                   | Autenticado                    |
 
 ### Manejo de errores
 
@@ -102,15 +102,15 @@ Business ─┬─< Service ─┬─< ProfessionalService >─┬─ Profession
 User ─< Notification
 ```
 
-| Tabla | Campos clave | Restricciones |
-|-------|--------------|---------------|
-| `User` | email (único, minúsculas), passwordHash, role | — |
-| `Business` | slug (único), timezone, cancellationMinHours, slotIntervalMinutes, bookingHorizonDays, autoConfirm | `CHECK` de rangos |
-| `Service` | durationMinutes, priceCents, isActive | `CHECK duration > 0`, `price >= 0` |
-| `Professional` | isActive, canManageBlocks, canCompleteBookings | — |
-| `WorkingHours` | weekday, startMinute, endMinute | `CHECK 0<=start<end<=1440` |
-| `TimeBlock` | startsAt, endsAt | `CHECK startsAt < endsAt` |
-| `Booking` | startsAt, endsAt, status, priceCents | `EXCLUDE` por profesional y por cliente en estados activos |
+| Tabla          | Campos clave                                                                                       | Restricciones                                              |
+| -------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| `User`         | email (único, minúsculas), passwordHash, role                                                      | —                                                          |
+| `Business`     | slug (único), timezone, cancellationMinHours, slotIntervalMinutes, bookingHorizonDays, autoConfirm | `CHECK` de rangos                                          |
+| `Service`      | durationMinutes, priceCents, isActive                                                              | `CHECK duration > 0`, `price >= 0`                         |
+| `Professional` | isActive, canManageBlocks, canCompleteBookings                                                     | —                                                          |
+| `WorkingHours` | weekday, startMinute, endMinute                                                                    | `CHECK 0<=start<end<=1440`                                 |
+| `TimeBlock`    | startsAt, endsAt                                                                                   | `CHECK startsAt < endsAt`                                  |
+| `Booking`      | startsAt, endsAt, status, priceCents                                                               | `EXCLUDE` por profesional y por cliente en estados activos |
 
 ## Concurrencia (RN-006, RN-020, RN-028)
 
@@ -135,19 +135,19 @@ ALTER TABLE "Booking" ADD CONSTRAINT booking_no_overlap
 
 ## Frontend
 
-| Aspecto | Decisión |
-|---------|----------|
-| Rutas | React Router con layouts por rol y guardas (`RequireRole`). |
-| Datos del servidor | TanStack Query (cache, invalidación tras mutaciones, estados de carga/error). |
-| Formularios | React Hook Form + resolvers de Zod con los **mismos** esquemas de `@turnify/shared`. |
-| Estilos | Tailwind CSS 4 con tokens propios (`@theme`). |
-| Componentes | Sistema de diseño propio en `components/ui`; diálogos accesibles con Radix. |
+| Aspecto            | Decisión                                                                             |
+| ------------------ | ------------------------------------------------------------------------------------ |
+| Rutas              | React Router con layouts por rol y guardas (`RequireRole`).                          |
+| Datos del servidor | TanStack Query (cache, invalidación tras mutaciones, estados de carga/error).        |
+| Formularios        | React Hook Form + resolvers de Zod con los **mismos** esquemas de `@turnify/shared`. |
+| Estilos            | Tailwind CSS 4 con tokens propios (`@theme`).                                        |
+| Componentes        | Sistema de diseño propio en `components/ui`; diálogos accesibles con Radix.          |
 
 ## Testing
 
-| Nivel | Ubicación | Base de datos |
-|-------|-----------|---------------|
-| Unitario | `packages/shared`, `apps/api/src/**/*.test.ts` | — |
-| Integración | `apps/api/test/**/*.int.test.ts` | PostgreSQL efímero (`embedded-postgres`) con migraciones reales |
-| Componentes | `apps/web/src/**/*.test.tsx` | — (API simulada con MSW) |
-| E2E | `e2e/` | PostgreSQL efímero + API + web reales |
+| Nivel       | Ubicación                                      | Base de datos                                                   |
+| ----------- | ---------------------------------------------- | --------------------------------------------------------------- |
+| Unitario    | `packages/shared`, `apps/api/src/**/*.test.ts` | —                                                               |
+| Integración | `apps/api/test/**/*.int.test.ts`               | PostgreSQL efímero (`embedded-postgres`) con migraciones reales |
+| Componentes | `apps/web/src/**/*.test.tsx`                   | — (API simulada con MSW)                                        |
+| E2E         | `e2e/`                                         | PostgreSQL efímero + API + web reales                           |

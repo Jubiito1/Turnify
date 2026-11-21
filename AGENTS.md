@@ -8,22 +8,22 @@ Guía obligatoria para cualquier agente (humano o IA) que trabaje en este reposi
 
 Fuentes de verdad:
 
-| Documento | Contenido |
-|-----------|-----------|
-| [`docs/SPEC.md`](docs/SPEC.md) | Reglas de negocio numeradas (`RN-XXX`) y códigos de error |
-| [`docs/PLAN.md`](docs/PLAN.md) | Alcance, requisitos, fases, riesgos |
-| [`docs/TASKS.md`](docs/TASKS.md) | Estado de cada tarea |
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Arquitectura y decisiones técnicas |
-| [`docs/API.md`](docs/API.md) | Contrato de la API |
+| Documento                                      | Contenido                                                 |
+| ---------------------------------------------- | --------------------------------------------------------- |
+| [`docs/SPEC.md`](docs/SPEC.md)                 | Reglas de negocio numeradas (`RN-XXX`) y códigos de error |
+| [`docs/PLAN.md`](docs/PLAN.md)                 | Alcance, requisitos, fases, riesgos                       |
+| [`docs/TASKS.md`](docs/TASKS.md)               | Estado de cada tarea                                      |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Arquitectura y decisiones técnicas                        |
+| [`docs/API.md`](docs/API.md)                   | Contrato de la API                                        |
 
 ## 2. Arquitectura y stack
 
-| Parte | Stack |
-|-------|-------|
-| `apps/api` | Node.js 20+, TypeScript, Express 5, Zod, Prisma, PostgreSQL |
-| `apps/web` | React 19, TypeScript, Vite, Tailwind CSS 4, React Router, TanStack Query, React Hook Form |
-| `packages/shared` | Esquemas Zod, enums, reglas puras compartidas |
-| Tests | Vitest, Supertest, React Testing Library, MSW, Playwright, embedded-postgres |
+| Parte             | Stack                                                                                     |
+| ----------------- | ----------------------------------------------------------------------------------------- |
+| `apps/api`        | Node.js 20+, TypeScript, Express 5, Zod, Prisma, PostgreSQL                               |
+| `apps/web`        | React 19, TypeScript, Vite, Tailwind CSS 4, React Router, TanStack Query, React Hook Form |
+| `packages/shared` | Esquemas Zod, enums, reglas puras compartidas                                             |
+| Tests             | Vitest, Supertest, React Testing Library, MSW, Playwright, embedded-postgres              |
 
 ## 3. Estructura del repositorio
 
@@ -40,18 +40,18 @@ docs/                       documentación
 
 ## 4. Comandos
 
-| Comando | Qué hace |
-|---------|----------|
-| `npm install` | Instala dependencias de todos los workspaces |
-| `npm run dev` | API (`:4000`) + web (`:5173`) en modo desarrollo |
-| `npm run db:dev` | PostgreSQL local efímero para desarrollo (sin Docker) |
-| `npm run db:migrate` | Aplica migraciones (`prisma migrate deploy`) |
-| `npm run db:seed` | Carga datos demo |
-| `npm run typecheck` | Verificación de tipos en todos los workspaces |
-| `npm run lint` | ESLint |
-| `npm test` | Tests unitarios + integración + componentes |
-| `npm run test:e2e` | Tests Playwright |
-| `npm run build` | Build de producción |
+| Comando              | Qué hace                                              |
+| -------------------- | ----------------------------------------------------- |
+| `npm install`        | Instala dependencias de todos los workspaces          |
+| `npm run dev`        | API (`:4000`) + web (`:5173`) en modo desarrollo      |
+| `npm run db:dev`     | PostgreSQL local efímero para desarrollo (sin Docker) |
+| `npm run db:migrate` | Aplica migraciones (`prisma migrate deploy`)          |
+| `npm run db:seed`    | Carga datos demo                                      |
+| `npm run typecheck`  | Verificación de tipos en todos los workspaces         |
+| `npm run lint`       | ESLint                                                |
+| `npm test`           | Tests unitarios + integración + componentes           |
+| `npm run test:e2e`   | Tests Playwright                                      |
+| `npm run build`      | Build de producción                                   |
 
 ## 5. Convenciones de código
 
@@ -111,14 +111,14 @@ Una tarea está completa solo si:
 
 ## 11. Actualización de documentación
 
-| Si cambiás… | Actualizá… |
-|-------------|------------|
-| Una regla de negocio | `docs/SPEC.md` y sus tests |
-| Un endpoint | `docs/API.md` |
-| Arquitectura, dependencias o decisiones | `docs/ARCHITECTURE.md` |
-| Comandos o variables de entorno | `README.md`, `.env.example`, este archivo |
-| El estado de una tarea | `docs/TASKS.md` |
-| Resultados de tests | `docs/TEST_REPORT.md` |
+| Si cambiás…                             | Actualizá…                                |
+| --------------------------------------- | ----------------------------------------- |
+| Una regla de negocio                    | `docs/SPEC.md` y sus tests                |
+| Un endpoint                             | `docs/API.md`                             |
+| Arquitectura, dependencias o decisiones | `docs/ARCHITECTURE.md`                    |
+| Comandos o variables de entorno         | `README.md`, `.env.example`, este archivo |
+| El estado de una tarea                  | `docs/TASKS.md`                           |
+| Resultados de tests                     | `docs/TEST_REPORT.md`                     |
 
 ## 12. Reanudar trabajo
 

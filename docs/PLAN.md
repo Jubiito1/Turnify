@@ -14,55 +14,55 @@ Este plan define qué se construye, cómo y en qué orden. El estado vivo de cad
 
 ## 2. Alcance
 
-| Incluido | Fuera de alcance |
-|----------|------------------|
-| Registro, login, logout, perfiles | Pagos online reales |
-| Onboarding de negocio | Envío de emails/SMS (requiere proveedor pago) |
-| Servicios, profesionales, horarios, bloqueos | Aplicaciones móviles nativas |
-| Motor de disponibilidad con zona horaria | Integración con calendarios externos |
-| Reservas, cancelación, reprogramación, estados | Facturación electrónica |
-| Panel admin, panel profesional, panel cliente | |
-| Calendario semanal y mensual | |
-| Dashboard con métricas reales y por servicio/profesional | |
-| Búsqueda y filtros, exportación CSV | |
-| Notificaciones dentro de la aplicación | |
-| Política de cancelación configurable | |
+| Incluido                                                 | Fuera de alcance                              |
+| -------------------------------------------------------- | --------------------------------------------- |
+| Registro, login, logout, perfiles                        | Pagos online reales                           |
+| Onboarding de negocio                                    | Envío de emails/SMS (requiere proveedor pago) |
+| Servicios, profesionales, horarios, bloqueos             | Aplicaciones móviles nativas                  |
+| Motor de disponibilidad con zona horaria                 | Integración con calendarios externos          |
+| Reservas, cancelación, reprogramación, estados           | Facturación electrónica                       |
+| Panel admin, panel profesional, panel cliente            |                                               |
+| Calendario semanal y mensual                             |                                               |
+| Dashboard con métricas reales y por servicio/profesional |                                               |
+| Búsqueda y filtros, exportación CSV                      |                                               |
+| Notificaciones dentro de la aplicación                   |                                               |
+| Política de cancelación configurable                     |                                               |
 
 ## 3. Requisitos funcionales
 
-| ID | Requisito | Rol |
-|----|-----------|-----|
-| RF-01 | Registrarse como cliente; registrar un negocio (crea administrador + negocio) | Público |
-| RF-02 | Iniciar y cerrar sesión; consultar la sesión actual | Todos |
-| RF-03 | Explorar negocios con búsqueda por nombre y filtro por rubro | Público |
-| RF-04 | Ver servicios y profesionales de un negocio | Público |
-| RF-05 | Consultar disponibilidad por servicio, profesional y fecha | Público |
-| RF-06 | Reservar, listar, cancelar y reprogramar reservas propias | Cliente |
-| RF-07 | Editar perfil y contraseña | Todos |
-| RF-08 | Configurar datos del negocio y política de cancelación | Admin |
-| RF-09 | ABM de servicios (duración, precio, activo) | Admin |
-| RF-10 | ABM de profesionales, asignación de servicios, horarios y permisos | Admin |
-| RF-11 | Gestionar bloqueos de disponibilidad | Admin / Profesional autorizado |
-| RF-12 | Calendario general semanal y mensual | Admin |
-| RF-13 | Crear, confirmar, cancelar, completar y reprogramar reservas | Admin |
-| RF-14 | Listado de reservas con filtros (fecha, estado, profesional, servicio, texto) y exportación CSV | Admin |
-| RF-15 | Listado de clientes con búsqueda | Admin |
-| RF-16 | Dashboard de métricas: reservas, ingresos, ocupación, ranking por servicio y profesional | Admin |
-| RF-17 | Agenda propia, historial y marcar turnos completados | Profesional |
-| RF-18 | Notificaciones dentro de la aplicación ante eventos de reservas | Todos |
+| ID    | Requisito                                                                                       | Rol                            |
+| ----- | ----------------------------------------------------------------------------------------------- | ------------------------------ |
+| RF-01 | Registrarse como cliente; registrar un negocio (crea administrador + negocio)                   | Público                        |
+| RF-02 | Iniciar y cerrar sesión; consultar la sesión actual                                             | Todos                          |
+| RF-03 | Explorar negocios con búsqueda por nombre y filtro por rubro                                    | Público                        |
+| RF-04 | Ver servicios y profesionales de un negocio                                                     | Público                        |
+| RF-05 | Consultar disponibilidad por servicio, profesional y fecha                                      | Público                        |
+| RF-06 | Reservar, listar, cancelar y reprogramar reservas propias                                       | Cliente                        |
+| RF-07 | Editar perfil y contraseña                                                                      | Todos                          |
+| RF-08 | Configurar datos del negocio y política de cancelación                                          | Admin                          |
+| RF-09 | ABM de servicios (duración, precio, activo)                                                     | Admin                          |
+| RF-10 | ABM de profesionales, asignación de servicios, horarios y permisos                              | Admin                          |
+| RF-11 | Gestionar bloqueos de disponibilidad                                                            | Admin / Profesional autorizado |
+| RF-12 | Calendario general semanal y mensual                                                            | Admin                          |
+| RF-13 | Crear, confirmar, cancelar, completar y reprogramar reservas                                    | Admin                          |
+| RF-14 | Listado de reservas con filtros (fecha, estado, profesional, servicio, texto) y exportación CSV | Admin                          |
+| RF-15 | Listado de clientes con búsqueda                                                                | Admin                          |
+| RF-16 | Dashboard de métricas: reservas, ingresos, ocupación, ranking por servicio y profesional        | Admin                          |
+| RF-17 | Agenda propia, historial y marcar turnos completados                                            | Profesional                    |
+| RF-18 | Notificaciones dentro de la aplicación ante eventos de reservas                                 | Todos                          |
 
 ## 4. Requisitos no funcionales
 
-| ID | Requisito |
-|----|-----------|
+| ID     | Requisito                                                                                                                                                |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | RNF-01 | Seguridad: bcrypt, sesión en cookie `httpOnly`, autorización por rol y recurso, CORS restringido, rate limiting, Helmet, sin secretos en el repositorio. |
-| RNF-02 | Integridad: restricciones de base de datos (FK, únicos, `CHECK`, exclusión) como última línea de defensa. |
-| RNF-03 | Rendimiento: índices en columnas de filtrado frecuente; paginación en listados. |
-| RNF-04 | Usabilidad: diseño responsive (móvil, tablet, escritorio), estados de carga, vacíos y error. |
-| RNF-05 | Accesibilidad: labels, foco visible, navegación por teclado, contraste AA. |
-| RNF-06 | Mantenibilidad: TypeScript estricto, módulos por dominio, validación compartida con Zod. |
-| RNF-07 | Testabilidad: tests unitarios, de integración contra PostgreSQL real y E2E. |
-| RNF-08 | Disponibilidad: despliegue público gratuito; se documentan limitaciones (cold start). |
+| RNF-02 | Integridad: restricciones de base de datos (FK, únicos, `CHECK`, exclusión) como última línea de defensa.                                                |
+| RNF-03 | Rendimiento: índices en columnas de filtrado frecuente; paginación en listados.                                                                          |
+| RNF-04 | Usabilidad: diseño responsive (móvil, tablet, escritorio), estados de carga, vacíos y error.                                                             |
+| RNF-05 | Accesibilidad: labels, foco visible, navegación por teclado, contraste AA.                                                                               |
+| RNF-06 | Mantenibilidad: TypeScript estricto, módulos por dominio, validación compartida con Zod.                                                                 |
+| RNF-07 | Testabilidad: tests unitarios, de integración contra PostgreSQL real y E2E.                                                                              |
+| RNF-08 | Disponibilidad: despliegue público gratuito; se documentan limitaciones (cold start).                                                                    |
 
 ## 5. Arquitectura propuesta
 
@@ -73,13 +73,13 @@ apps/web  (React + Vite)  ──/api──▶  apps/api (Express)  ──Prisma�
             └──────────── packages/shared (Zod, tipos, reglas puras) ────────────┘
 ```
 
-| Capa | Tecnología | Motivo |
-|------|------------|--------|
-| Frontend | React 19, TypeScript, Vite, Tailwind CSS 4, React Router, TanStack Query, React Hook Form, Zod | Stack moderno, tipado y productivo. |
-| Backend | Node.js, Express 5, TypeScript, Zod, Prisma | API REST simple, validación compartida y ORM con migraciones. |
-| Base de datos | PostgreSQL (Neon en producción) | Restricciones de exclusión para concurrencia; `timestamptz`. |
-| Tests | Vitest, Supertest, React Testing Library, Playwright, embedded-postgres | PostgreSQL real y efímero sin Docker. |
-| Infra | GitHub, Vercel (web), Render (API), Neon (DB) | Planes gratuitos suficientes. |
+| Capa          | Tecnología                                                                                     | Motivo                                                        |
+| ------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| Frontend      | React 19, TypeScript, Vite, Tailwind CSS 4, React Router, TanStack Query, React Hook Form, Zod | Stack moderno, tipado y productivo.                           |
+| Backend       | Node.js, Express 5, TypeScript, Zod, Prisma                                                    | API REST simple, validación compartida y ORM con migraciones. |
+| Base de datos | PostgreSQL (Neon en producción)                                                                | Restricciones de exclusión para concurrencia; `timestamptz`.  |
+| Tests         | Vitest, Supertest, React Testing Library, Playwright, embedded-postgres                        | PostgreSQL real y efímero sin Docker.                         |
+| Infra         | GitHub, Vercel (web), Render (API), Neon (DB)                                                  | Planes gratuitos suficientes.                                 |
 
 ### Decisiones clave
 
@@ -91,35 +91,35 @@ apps/web  (React + Vite)  ──/api──▶  apps/api (Express)  ──Prisma�
 
 ## 6. Fases de implementación
 
-| Fase | Contenido | Tareas |
-|------|-----------|--------|
-| 1. Inicialización | Documentación base, monorepo, herramientas | T01–T04 |
-| 2. Backend y DB | Esquema, migraciones, auth, catálogo, servicios, profesionales, disponibilidad, bloqueos, reservas, estados, estadísticas, notificaciones | T05–T15 |
-| 3. Frontend | Sistema de diseño, auth, catálogo, flujo de reserva, paneles cliente/profesional/admin, calendario, métricas | T16–T23 |
-| 4. Integración y QA | E2E, revisión de seguridad, documentación de API | T24–T25 |
-| 5. Producción | Configuración de despliegue, Neon, Render, Vercel, smoke tests | T26–T27 |
-| 6. Auditoría final | Informe de pruebas, README, verificación contra la consigna | T28 |
+| Fase                | Contenido                                                                                                                                 | Tareas  |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| 1. Inicialización   | Documentación base, monorepo, herramientas                                                                                                | T01–T04 |
+| 2. Backend y DB     | Esquema, migraciones, auth, catálogo, servicios, profesionales, disponibilidad, bloqueos, reservas, estados, estadísticas, notificaciones | T05–T15 |
+| 3. Frontend         | Sistema de diseño, auth, catálogo, flujo de reserva, paneles cliente/profesional/admin, calendario, métricas                              | T16–T23 |
+| 4. Integración y QA | E2E, revisión de seguridad, documentación de API                                                                                          | T24–T25 |
+| 5. Producción       | Configuración de despliegue, Neon, Render, Vercel, smoke tests                                                                            | T26–T27 |
+| 6. Auditoría final  | Informe de pruebas, README, verificación contra la consigna                                                                               | T28     |
 
 ## 7. Riesgos
 
-| Riesgo | Impacto | Mitigación |
-|--------|---------|------------|
-| Reservas duplicadas por concurrencia | Alto | Restricción de exclusión + test con solicitudes simultáneas. |
-| Errores de zona horaria / horario de verano | Medio | Luxon con zona IANA; tests con zonas distintas y cambio de horario. |
-| Fuga de datos entre negocios (IDOR) | Alto | `businessId` desde la sesión; tests de aislamiento. |
-| Cookies de terceros bloqueadas por el navegador | Medio | Reescritura `/api` en el frontend (mismo origen). |
-| Cold start del plan gratuito de Render | Medio | Pantalla de "despertando servidor" con reintentos; documentado. |
-| Sin Docker en el entorno de desarrollo | Medio | `embedded-postgres` para tests de integración y E2E. |
-| Credenciales cloud no disponibles | Medio | Configuración declarativa (`render.yaml`, `vercel.json`) e instrucciones exactas. |
+| Riesgo                                          | Impacto | Mitigación                                                                        |
+| ----------------------------------------------- | ------- | --------------------------------------------------------------------------------- |
+| Reservas duplicadas por concurrencia            | Alto    | Restricción de exclusión + test con solicitudes simultáneas.                      |
+| Errores de zona horaria / horario de verano     | Medio   | Luxon con zona IANA; tests con zonas distintas y cambio de horario.               |
+| Fuga de datos entre negocios (IDOR)             | Alto    | `businessId` desde la sesión; tests de aislamiento.                               |
+| Cookies de terceros bloqueadas por el navegador | Medio   | Reescritura `/api` en el frontend (mismo origen).                                 |
+| Cold start del plan gratuito de Render          | Medio   | Pantalla de "despertando servidor" con reintentos; documentado.                   |
+| Sin Docker en el entorno de desarrollo          | Medio   | `embedded-postgres` para tests de integración y E2E.                              |
+| Credenciales cloud no disponibles               | Medio   | Configuración declarativa (`render.yaml`, `vercel.json`) e instrucciones exactas. |
 
 ## 8. Estrategia de testing
 
-| Nivel | Herramienta | Qué valida |
-|-------|-------------|------------|
-| Unitario | Vitest | Motor de disponibilidad, transiciones de estado, políticas de cancelación, esquemas Zod, dinero. |
-| Integración | Vitest + Supertest + PostgreSQL efímero | Auth, autorización, ABM, reservas, solapamientos, aislamiento, concurrencia, estadísticas. |
-| Componentes | Vitest + React Testing Library | Formularios, validaciones, selector de horarios, estados de carga/error. |
-| E2E | Playwright | Registro/login, reserva completa, cancelación, reprogramación, administración, agenda. |
+| Nivel       | Herramienta                             | Qué valida                                                                                       |
+| ----------- | --------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Unitario    | Vitest                                  | Motor de disponibilidad, transiciones de estado, políticas de cancelación, esquemas Zod, dinero. |
+| Integración | Vitest + Supertest + PostgreSQL efímero | Auth, autorización, ABM, reservas, solapamientos, aislamiento, concurrencia, estadísticas.       |
+| Componentes | Vitest + React Testing Library          | Formularios, validaciones, selector de horarios, estados de carga/error.                         |
+| E2E         | Playwright                              | Registro/login, reserva completa, cancelación, reprogramación, administración, agenda.           |
 
 Los tests de integración nunca usan mocks de la base de datos ni se ejecutan contra producción. Los resultados reales se registran en [`TEST_REPORT.md`](./TEST_REPORT.md).
 
