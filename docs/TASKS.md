@@ -12,7 +12,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 
 | Fase                | Tareas  | Completadas |
 | ------------------- | ------- | ----------- |
-| 1. Inicialización   | T01–T04 | 1/4         |
+| 1. Inicialización   | T01–T04 | 3/4         |
 | 2. Backend y DB     | T05–T15 | 0/11        |
 | 3. Frontend         | T16–T23 | 0/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
@@ -35,9 +35,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T01
   - RN: RN-015, RN-018, RN-030, RN-031
   - Criterios: `npm run typecheck`, `npm run lint` y tests unitarios de `shared` en verde.
-  - Commit: —
+  - Commit: `0565c5d`
 
-- [ ] **T03 — Esqueleto de la API**
+- [x] **T03 — Esqueleto de la API**
   - Descripción: Express 5, configuración validada por Zod, Helmet, CORS, manejo centralizado de errores, logger, `GET /api/health`.
   - Dependencias: T02
   - RN: RN-024
