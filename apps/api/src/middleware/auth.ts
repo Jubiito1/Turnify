@@ -93,3 +93,11 @@ export function getAdminBusinessId(req: Request): string {
   if (auth.role !== 'ADMIN' || !auth.businessId) throw forbidden();
   return auth.businessId;
 }
+
+/** Professional profile of the authenticated PROFESSIONAL user; inactive profiles are rejected. */
+export function getProfessionalContext(req: Request): NonNullable<AuthContext['professional']> {
+  const auth = getAuth(req);
+  if (auth.role !== 'PROFESSIONAL' || !auth.professional) throw forbidden();
+  if (!auth.professional.isActive) throw forbidden('Tu perfil profesional está desactivado');
+  return auth.professional;
+}

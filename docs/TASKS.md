@@ -13,7 +13,7 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
 | Fase                | Tareas  | Completadas |
 | ------------------- | ------- | ----------- |
 | 1. Inicialización   | T01–T04 | 4/4         |
-| 2. Backend y DB     | T05–T15 | 6/11        |
+| 2. Backend y DB     | T05–T15 | 7/11        |
 | 3. Frontend         | T16–T23 | 0/8         |
 | 4. Integración y QA | T24–T25 | 0/2         |
 | 5. Producción       | T26–T27 | 0/2         |
@@ -93,9 +93,9 @@ Estado vivo del desarrollo. Cada tarea se cierra con **un commit** (Conventional
   - Dependencias: T09
   - RN: RN-001, RN-004, RN-005, RN-007, RN-008, RN-012, RN-019, RN-027, RN-034
   - Criterios: tests unitarios exhaustivos (incluye DST) y de integración del endpoint.
-  - Commit: —
+  - Commit: `f38a450`
 
-- [ ] **T11 — Bloqueos de disponibilidad**
+- [x] **T11 — Bloqueos de disponibilidad**
   - Descripción: crear, listar y eliminar bloqueos (admin y profesional autorizado), rechazo si hay reservas activas superpuestas.
   - Dependencias: T10
   - RN: RN-005, RN-029, RN-033

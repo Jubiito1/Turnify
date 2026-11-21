@@ -127,6 +127,10 @@ ALTER TABLE "Booking" ADD CONSTRAINT booking_no_overlap
 - La condición parcial hace que cancelados/completados no ocupen agenda (RN-012).
 - PostgreSQL serializa la verificación del índice GiST: de N inserciones simultáneas solo una tiene éxito; el resto recibe `23P01`, que la API traduce a `409 SLOT_TAKEN`.
 
+### Reglas entre tablas (RN-005, RN-029)
+
+Una restricción de exclusión no puede comparar filas de tablas distintas (reservas contra bloqueos). Para esas reglas, la creación de reservas y de bloqueos abre una transacción y bloquea la fila del profesional con `SELECT … FOR UPDATE` (`apps/api/src/lib/locks.ts`). Así, una reserva y un bloqueo simultáneos sobre el mismo profesional se serializan: el segundo ve al primero y es rechazado.
+
 ## Tiempo y zonas horarias (RN-019)
 
 - Instantes (`startsAt`, `endsAt`, bloqueos) en `timestamptz`.

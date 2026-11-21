@@ -118,3 +118,16 @@ Sin `professionalId`, cada horario lista los profesionales elegibles libres. Err
 ### `GET /api/businesses/:slug/availability/summary?serviceId=&from=AAAA-MM-DD&days=14&professionalId=`
 
 Cantidad de horarios libres por día (1 a 31 días) para el selector de fechas → `{ timezone, serviceId, days: [{ date, slotCount }] }`.
+
+## Bloqueos de disponibilidad
+
+| Método   | Ruta                                          | Acceso                            | Descripción                                                             |
+| -------- | --------------------------------------------- | --------------------------------- | ----------------------------------------------------------------------- |
+| `GET`    | `/api/admin/blocks?from=&to=&professionalId=` | Admin                             | Bloqueos vigentes del negocio (por defecto, desde ahora)                |
+| `POST`   | `/api/admin/blocks`                           | Admin                             | Body: `{ professionalId, startsAt, endsAt, reason? }` → `201 { block }` |
+| `DELETE` | `/api/admin/blocks/:id`                       | Admin                             | → `204`                                                                 |
+| `GET`    | `/api/pro/blocks`                             | Profesional                       | Bloqueos propios                                                        |
+| `POST`   | `/api/pro/blocks`                             | Profesional con `canManageBlocks` | El `professionalId` se fuerza al propio perfil                          |
+| `DELETE` | `/api/pro/blocks/:id`                         | Profesional con `canManageBlocks` | Solo bloqueos propios                                                   |
+
+Errores: `409 BLOCK_CONFLICTS_WITH_BOOKINGS` con `details.conflictingBookings` (RN-029), `422 BLOCK_IN_PAST`, `403 PERMISSION_DENIED` (RN-033), `404` para profesionales o bloqueos fuera del ámbito.

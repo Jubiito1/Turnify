@@ -1,6 +1,7 @@
 import { Router, type RequestHandler } from 'express';
 import { authenticate, requireRole } from './middleware/auth';
 import { createAuthRouter } from './modules/auth/auth.routes';
+import { adminBlocksRouter, proBlocksRouter } from './modules/blocks/blocks.routes';
 import { adminBusinessRouter } from './modules/business/business.routes';
 import { catalogRouter } from './modules/catalog/catalog.routes';
 import { healthRouter } from './modules/health/health.routes';
@@ -26,7 +27,14 @@ export function createApiRouter({ authRateLimiter }: ApiRouterDeps) {
   admin.use('/business', adminBusinessRouter);
   admin.use('/services', adminServicesRouter);
   admin.use('/professionals', adminProfessionalsRouter);
+  admin.use('/blocks', adminBlocksRouter);
   api.use('/admin', admin);
+
+  // Professional panel: only the professional's own agenda (RN-010).
+  const pro = Router();
+  pro.use(authenticate, requireRole('PROFESSIONAL'));
+  pro.use('/blocks', proBlocksRouter);
+  api.use('/pro', pro);
 
   return api;
 }
